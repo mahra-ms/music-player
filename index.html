@@ -41,13 +41,14 @@
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
       position: relative;
-    
+      margin: 0;
+      padding: 0;
     }
     ::selection {
       background: var(--geru);
       color: var(--biswar);
     }
-    /* --- BACKGROUND — crystal clear image with bottom black gradient --- */
+    /* --- BACKGROUND — with parallax effect --- */
     .bg-container {
       position: fixed;
       inset: 0;
@@ -55,28 +56,32 @@
       pointer-events: none;
       overflow: hidden;
       background: #0a0f0c;
+      /* Parallax container, image will be scaled up to allow movement */
     }
     .bg-image {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+      /* Scale up to allow smooth parallax movement without showing edges */
+      width: 110%;
+      height: 110%;
+      top: -5%;
+      left: -5%;
       object-fit: cover;
       opacity: 1;
       filter: brightness(0.35) saturate(1.1) contrast(1.09);
+      transition: transform 0.1s ease-out;
+      will-change: transform;
     }
-    /* NEW: Black gradient filter from bottom side */
+    /* Black gradient filter from bottom side */
     .bg-bottom-gradient {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 35%; /* Adjust height as needed */
+      height: 35%;
       background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
       pointer-events: none;
       z-index: 1;
     }
-    /* fallback removed — no dark green overlay */
     .ambient-glow {
       display: none;
     }
@@ -738,6 +743,13 @@
         width: calc(100% - 16px);
         bottom: 10px;
       }
+      /* Reduce parallax intensity on mobile for performance/feel */
+      .bg-image {
+        width: 105%;
+        height: 105%;
+        top: -2.5%;
+        left: -2.5%;
+      }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -746,13 +758,16 @@
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
       }
+      .bg-image {
+        transition: none !important;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- BACKGROUND IMAGE — completely clear, with black gradient from bottom -->
-  <div class="bg-container">
-    <img class="bg-image" src="hill.png" alt="Mountain landscape of Uttarakhand" loading="lazy" onerror="this.style.display='none'" />
+  <!-- BACKGROUND IMAGE — with parallax effect via mouse movement -->
+  <div class="bg-container" id="bgContainer">
+    <img class="bg-image" id="bgImage" src="hill.png" alt="Mountain landscape of Uttarakhand" loading="lazy" onerror="this.style.display='none'" />
     <!-- Black gradient overlay from bottom -->
     <div class="bg-bottom-gradient"></div>
   </div>
@@ -944,6 +959,53 @@
   <iframe id="youtube" src="https://www.youtube.com/embed/Yq4GkZAxWQw?enablejsapi=1&playsinline=1&controls=0&rel=0&modestbranding=1" allow="autoplay; encrypted-media" title="Kumaoni music player"></iframe>
 
   <script>
+    (function() {
+      // --- Parallax effect on mouse move ---
+      const bgImage = document.getElementById('bgImage');
+      const bgContainer = document.getElementById('bgContainer');
+      
+      // Sensitivity: how much the image moves relative to mouse position (in pixels)
+      const moveFactor = 20; // max shift in pixels
+      
+      function handleMouseMove(e) {
+        if (!bgImage) return;
+        
+        // Get viewport dimensions
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        
+        // Calculate mouse position as a ratio from -0.5 to 0.5
+        // (center of screen is 0,0)
+        const mouseX = (e.clientX / vw) - 0.5;
+        const mouseY = (e.clientY / vh) - 0.5;
+        
+        // Calculate translation values (opposite direction for parallax feel)
+        const translateX = mouseX * moveFactor * -1;
+        const translateY = mouseY * moveFactor * -1;
+        
+        // Apply transform with smooth transition handled by CSS
+        bgImage.style.transform = `translate(${translateX}px, ${translateY}px)`;
+      }
+      
+      // Reset image position when mouse leaves the window (optional, smooth return)
+      function handleMouseLeave() {
+        if (bgImage) {
+          bgImage.style.transform = 'translate(0px, 0px)';
+        }
+      }
+      
+      // Attach event listeners
+      window.addEventListener('mousemove', handleMouseMove);
+      document.body.addEventListener('mouseleave', handleMouseLeave);
+      
+      // Cleanup not strictly necessary but good practice if dynamic loading
+      window.addEventListener('beforeunload', () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        document.body.removeEventListener('mouseleave', handleMouseLeave);
+      });
+    })();
+
+    // --- Clock, Quotes, Player logic below ---
     const clockEl = document.getElementById("clock");
     function updateClock() {
       const now = new Date();
@@ -1069,11 +1131,11 @@
     const songs = [
       { id: "Yq4GkZAxWQw", title: "Kumaoni Track 01" },
       { id: "43MGWGyzBlM", title: "Kumaoni Track 02" },
-      { id: "W02yu-FdlGM", title: "Kumaoni Track 05" },
-      { id: "SCzSFmosmaE", title: "Kumaoni Track 06" },
-      { id: "AvJox031Hnc", title: "Kumaoni Track 09" },
-      { id: "xNGRsnAexA8", title: "Kumaoni Track 10" },
-      { id: "cjaw_GlWuso", title: "Kumaoni Track 12" },
+      { id: "W02yu-FdlGM", title: "Kumaoni Track 03" },
+      { id: "SCzSFmosmaE", title: "Kumaoni Track 04" },
+      { id: "AvJox031Hnc", title: "Kumaoni Track 05" },
+      { id: "xNGRsnAexA8", title: "Kumaoni Track 06" },
+      { id: "cjaw_GlWuso", title: "Kumaoni Track 07" },
     ];
     let virtualTrackIndex = 0;
 
@@ -1147,8 +1209,8 @@
         rewindEffect();
       }
       if (event.code === "Space") {
-        const tag = document.activeElement?.tagName;
-        if (tag !== "INPUT" && tag !== "TEXTAREA") {
+        const activeTag = document.activeElement?.tagName;
+        if (activeTag !== "INPUT" && activeTag !== "TEXTAREA") {
           event.preventDefault();
           togglePlay();
         }
