@@ -1,1284 +1,1161 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Classic Kumoni — पहाड़ की आवाज़</title>
-    <meta
-      name="description"
-      content="Classic Kumoni songs — a living radio archive for Kumaoni memories, melodies and mountain evenings."
-    />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Tiro+Devanagari+Hindi&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
-    <style>
-      :root {
-        /* Aipan palette — geru (ochre-clay), biswar (rice-paste), pine dusk, brass */
-        --bg: #141d18;
-        --bg-mid: #1c2620;
-        --panel: #22302a;
-        --panel-soft: rgba(34, 48, 42, 0.55);
-        --geru: #b8482f;
-        --geru-soft: rgba(184, 72, 47, 0.5);
-        --brass: #cc9a4d;
-        --biswar: #f3e7d2;
-        --text: #f3e7d2;
-        --text-dim: rgba(243, 231, 210, 0.62);
-        --text-muted: rgba(243, 231, 210, 0.38);
-        --line: rgba(243, 231, 210, 0.1);
-        --max: 1360px;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Work Sans", system-ui, sans-serif;
-        overflow-x: hidden;
-        line-height: 1.5;
-        -webkit-font-smoothing: antialiased;
-        min-height: 100vh;
-        position: relative;
-      }
-
-      ::selection {
-        background: var(--geru);
-        color: var(--biswar);
-      }
-
-      /* ---------------------------------------------
-       AMBIENT BACKGROUND — MOUNTAIN IMAGE
-       Replace YOUR_IMAGE_URL with your hosted image
-    --------------------------------------------- */
-      .bg-container {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        overflow: hidden;
-        background: #141d18;
-      }
-
-      .bg-image {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.5;
-        filter: brightness(0.6) saturate(0.8) contrast(1.2);
-      }
-
-      /* Fallback gradient if image doesn't load */
-      .bg-fallback {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse at 50% -10%, #253327 0%, #141d18 60%);
-      }
-
-      .ambient-glow {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        background: radial-gradient(ellipse at 20% 20%, rgba(245, 243, 241, 0.05) 0%, transparent 55%),
-          radial-gradient(ellipse at 82% 70%, rgba(250, 246, 244, 0.06) 0%, transparent 50%);
-      }
-
-      .grain {
-        position: fixed;
-        inset: 0;
-        z-index: 2;
-        pointer-events: none;
-        opacity: 0.035;
-        background-image: url("hill.png");
-      }
-
-      .main-content {
-        position: relative;
-        z-index: 3;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-
-      /* ---------------------------------------------
-       AIPAN DIVIDER
-    --------------------------------------------- */
-      .aipan-strip {
-        height: 15px;
-        width: 100%;
-        background-image: url("data:image/svg+xml,%3Csvg width='42' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='7.5' r='2' fill='%23b8482f'/%3E%3Crect x='16' y='3.5' width='8' height='8' fill='%23cc9a4d' transform='rotate(45 20 7.5)'/%3E%3Ccircle cx='36' cy='7.5' r='2' fill='%23b8482f'/%3E%3C/svg%3E");
-        background-repeat: repeat-x;
-        background-position: center;
-        opacity: 0.55;
-      }
-
-      .aipan-strip.dim {
-        opacity: 0.28;
-      }
-
-      /* ---------------------------------------------
-       TOP BAR
-    --------------------------------------------- */
-      .topbar {
-        height: 78px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 40px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 20;
-        border-bottom: 1px solid var(--line);
-        background: rgba(20, 29, 24, 0.55);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-family: "Fraunces", serif;
-        font-size: 17px;
-        font-weight: 600;
-        font-style: italic;
-        color: var(--text);
-        text-decoration: none;
-        letter-spacing: -0.2px;
-      }
-
-      .brand-mark {
-        width: 9px;
-        height: 9px;
-        background: var(--geru);
-        transform: rotate(45deg);
-        box-shadow: 0 0 12px rgba(184, 72, 47, 0.5);
-      }
-
-      .top-status {
-        display: flex;
-        align-items: center;
-        gap: 26px;
-        color: var(--text-muted);
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.13em;
-        font-weight: 500;
-      }
-
-      .live-indicator {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        color: var(--brass);
-      }
-
-      .live-pulse {
-        width: 5px;
-        height: 5px;
-        background: var(--geru);
-        border-radius: 50%;
-        animation: pulse 2s ease-in-out infinite;
-        box-shadow: 0 0 8px rgba(184, 72, 47, 0.6);
-      }
-
-      @keyframes pulse {
-        0%, 100% { opacity: 0.25; transform: scale(0.8); }
-        50% { opacity: 1; transform: scale(1.2); }
-      }
-
-      .indian-time {
-        font-family: "Space Mono", monospace;
-        font-size: 11px;
-        color: var(--brass);
-        letter-spacing: 0.05em;
-        font-weight: 500;
-      }
-
-      /* ---------------------------------------------
-       HERO
-    --------------------------------------------- */
-      .hero-center {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 130px 40px 90px;
-        position: relative;
-        z-index: 3;
-      }
-
-      .hero-ornament {
-        width: 60px;
-        height: 60px;
-        opacity: 0.75;
-        margin-bottom: 26px;
-        animation: spin-slow 60s linear infinite;
-      }
-
-      @keyframes spin-slow {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-
-      .hero-eyebrow {
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.26em;
-        color: var(--brass);
-        margin-bottom: 30px;
-        font-weight: 500;
-      }
-
-      .hero-title {
-        font-family: "Fraunces", serif;
-        font-size: clamp(70px, 12vw, 175px);
-        font-weight: 900;
-        font-style: italic;
-        line-height: 0.84;
-        letter-spacing: -0.03em;
-        color: var(--biswar);
-        margin-bottom: 10px;
-      }
-
-      .hero-title .accent {
-        color: var(--geru);
-        -webkit-text-stroke: 0;
-      }
-
-      .hero-subtitle {
-        font-family: "Tiro Devanagari Hindi", serif;
-        font-size: clamp(28px, 4.2vw, 48px);
-        font-weight: 400;
-        line-height: 1.2;
-        letter-spacing: -0.01em;
-        color: var(--brass);
-        margin-bottom: 22px;
-      }
-
-      .hero-desc {
-        max-width: 520px;
-        font-size: 13px;
-        color: var(--text-dim);
-        line-height: 1.85;
-        font-weight: 300;
-        margin-bottom: 40px;
-      }
-
-      .hero-desc em {
-        color: var(--text);
-        font-style: italic;
-        font-family: "Fraunces", serif;
-        font-weight: 500;
-      }
-
-      .hero-tags {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 14px;
-        justify-content: center;
-      }
-
-      .tag {
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.11em;
-        color: var(--text-dim);
-        font-weight: 500;
-      }
-
-      .tag-dot {
-        width: 3px;
-        height: 3px;
-        background: var(--geru-soft);
-        border-radius: 50%;
-      }
-
-      .scroll-indicator {
-        position: absolute;
-        bottom: 36px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        color: var(--text-muted);
-        font-size: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.22em;
-        animation: floatDown 2s ease-in-out infinite;
-      }
-
-      .scroll-line {
-        width: 1px;
-        height: 42px;
-        background: linear-gradient(to bottom, var(--brass), transparent);
-      }
-
-      @keyframes floatDown {
-        0%, 100% { transform: translateX(-50%) translateY(0); }
-        50% { transform: translateX(-50%) translateY(8px); }
-      }
-
-      /* ---------------------------------------------
-       SECTIONS
-    --------------------------------------------- */
-      .section {
-        padding: 96px 40px;
-        position: relative;
-        z-index: 3;
-        background: rgba(20, 29, 24, 0.5);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-      }
-
-      .section-inner {
-        max-width: var(--max);
-        margin: 0 auto;
-      }
-
-      .section-header {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        margin-bottom: 64px;
-        align-items: end;
-      }
-
-      .section-num {
-        font-family: "Space Mono", monospace;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        color: var(--brass);
-        margin-bottom: 16px;
-        font-weight: 500;
-      }
-
-      .section-title {
-        font-family: "Fraunces", serif;
-        font-size: clamp(32px, 4.2vw, 56px);
-        line-height: 0.98;
-        letter-spacing: -0.02em;
-        font-weight: 600;
-        font-style: italic;
-        color: var(--biswar);
-      }
-
-      .section-desc {
-        color: var(--text-dim);
-        font-size: 12px;
-        line-height: 1.85;
-        font-weight: 300;
-      }
-
-      .memory-list {
-        display: flex;
-        flex-direction: column;
-      }
-
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classic kamauni — पहाड़ की आवाज़</title>
+  <meta name="description" content="Classic Kumoni songs — a living radio archive for Kumaoni memories, melodies and mountain evenings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Tiro+Devanagari+Hindi&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #141d18;
+      --bg-mid: #1c2620;
+      --panel: #22302a;
+      --panel-soft: rgba(34, 48, 42, 0.25);
+      --geru: #b8482f;
+      --geru-soft: rgba(184, 72, 47, 0.5);
+      --brass: #cc9a4d;
+      --biswar: #f3e7d2;
+      --text: #f3e7d2;
+      --text-dim: rgba(243, 231, 210, 0.62);
+      --text-muted: rgba(243, 231, 210, 0.38);
+      --line: rgba(243, 231, 210, 0.1);
+      --max: 1360px;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background: #0a0f0c;
+      color: var(--text);
+      font-family: "Work Sans", system-ui, sans-serif;
+      overflow-x: hidden;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      position: relative;
+    
+    }
+    ::selection {
+      background: var(--geru);
+      color: var(--biswar);
+    }
+    /* --- BACKGROUND — crystal clear image with bottom black gradient --- */
+    .bg-container {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background: #0a0f0c;
+    }
+    .bg-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      filter: brightness(0.35) saturate(1.1) contrast(1.09);
+    }
+    /* NEW: Black gradient filter from bottom side */
+    .bg-bottom-gradient {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 35%; /* Adjust height as needed */
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    /* fallback removed — no dark green overlay */
+    .ambient-glow {
+      display: none;
+    }
+    .grain {
+      display: none;
+    }
+    .main-content {
+      position: relative;
+      z-index: 3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* --- AIPAN DIVIDER --- */
+    .aipan-strip {
+      height: 15px;
+      width: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='42' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='7.5' r='2' fill='%23b8482f'/%3E%3Crect x='16' y='3.5' width='8' height='8' fill='%23cc9a4d' transform='rotate(45 20 7.5)'/%3E%3Ccircle cx='36' cy='7.5' r='2' fill='%23b8482f'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-position: center;
+      opacity: 0.55;
+    }
+    .aipan-strip.dim {
+      opacity: 0.28;
+    }
+    /* --- TOP BAR --- */
+    .topbar {
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(10, 15, 12, 0.5);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Fraunces", serif;
+      font-size: 17px;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.2px;
+    }
+    .brand-mark {
+      width: 9px;
+      height: 9px;
+      background: var(--geru);
+      transform: rotate(45deg);
+      box-shadow: 0 0 12px rgba(184, 72, 47, 0.5);
+    }
+    .top-status {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: var(--text-muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      font-weight: 500;
+    }
+    .live-indicator {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--brass);
+    }
+    .live-pulse {
+      width: 5px;
+      height: 5px;
+      background: var(--geru);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 0 8px rgba(184, 72, 47, 0.6);
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.25; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    .indian-time {
+      font-family: "Space Mono", monospace;
+      font-size: 11px;
+      color: var(--brass);
+      letter-spacing: 0.05em;
+      font-weight: 500;
+    }
+    /* --- HERO --- */
+    .hero-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 130px 40px 90px;
+      position: relative;
+      z-index: 3;
+    }
+    .hero-ornament {
+      width: 60px;
+      height: 60px;
+      opacity: 0.75;
+      margin-bottom: 26px;
+      animation: spin-slow 60s linear infinite;
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .hero-eyebrow {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      color: var(--brass);
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+    .hero-title {
+      font-family: "Fraunces", serif;
+      font-size: clamp(70px, 12vw, 175px);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 0.84;
+      letter-spacing: -0.03em;
+      color: var(--biswar);
+      margin-bottom: 10px;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.7);
+    }
+    .hero-title .accent {
+      color: var(--geru);
+      -webkit-text-stroke: 0;
+    }
+    .hero-subtitle {
+      font-family: "Tiro Devanagari Hindi", serif;
+      font-size: clamp(28px, 4.2vw, 48px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      color: var(--brass);
+      margin-bottom: 22px;
+      text-shadow: 0 2px 30px rgba(0,0,0,0.7);
+    }
+    .hero-desc {
+      max-width: 520px;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 40px;
+      background: rgba(0,0,0,0.35);
+      padding: 10px 22px;
+      border-radius: 40px;
+      backdrop-filter: blur(4px);
+    }
+    .hero-desc em {
+      color: var(--text);
+      font-style: italic;
+      font-family: "Fraunces", serif;
+      font-weight: 500;
+    }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      justify-content: center;
+    }
+    .tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .tag-dot {
+      width: 3px;
+      height: 3px;
+      background: var(--geru-soft);
+      border-radius: 50%;
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      animation: floatDown 2s ease-in-out infinite;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 42px;
+      background: linear-gradient(to bottom, var(--brass), transparent);
+    }
+    @keyframes floatDown {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+    /* --- SECTIONS with minimal backdrop --- */
+    .section {
+      padding: 96px 40px;
+      position: relative;
+      z-index: 3;
+      background: rgba(10, 15, 12, 0.2);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    .section-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .section-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 64px;
+      align-items: end;
+    }
+    .section-num {
+      font-family: "Space Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--brass);
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+    .section-title {
+      font-family: "Fraunces", serif;
+      font-size: clamp(32px, 4.2vw, 56px);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--biswar);
+      text-shadow: 0 2px 25px rgba(0,0,0,0.6);
+    }
+    .section-desc {
+      color: var(--text-dim);
+      font-size: 12px;
+      line-height: 1.85;
+      font-weight: 300;
+      background: rgba(0,0,0,0.25);
+      padding: 8px 18px;
+      border-radius: 30px;
+      backdrop-filter: blur(2px);
+    }
+    .memory-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .memory-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+      padding: 34px 0;
+      border-top: 1px solid var(--line);
+      transition: padding 0.35s ease;
+    }
+    .memory-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+    .memory-row:hover {
+      padding-left: 10px;
+    }
+    .memory-glyph {
+      font-family: "Tiro Devanagari Hindi", serif;
+      font-size: 34px;
+      color: var(--geru-soft);
+      transition: color 0.3s ease;
+    }
+    .memory-row:hover .memory-glyph {
+      color: var(--geru);
+    }
+    .memory-row h3 {
+      font-family: "Tiro Devanagari Hindi", serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--biswar);
+      text-shadow: 0 1px 12px rgba(0,0,0,0.4);
+    }
+    .memory-row .memory-time {
+      display: block;
+      font-family: "Space Mono", monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+    .memory-row p {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      font-weight: 300;
+      max-width: 340px;
+      justify-self: end;
+      text-align: right;
+    }
+    @media (max-width: 720px) {
       .memory-row {
-        display: grid;
-        grid-template-columns: 90px 1fr 1fr;
-        gap: 30px;
-        align-items: center;
-        padding: 34px 0;
-        border-top: 1px solid var(--line);
-        transition: padding 0.35s ease;
+        grid-template-columns: 50px 1fr;
       }
-
-      .memory-row:last-child {
-        border-bottom: 1px solid var(--line);
-      }
-
-      .memory-row:hover {
-        padding-left: 10px;
-      }
-
-      .memory-glyph {
-        font-family: "Tiro Devanagari Hindi", serif;
-        font-size: 34px;
-        color: var(--geru-soft);
-        transition: color 0.3s ease;
-      }
-
-      .memory-row:hover .memory-glyph {
-        color: var(--geru);
-      }
-
-      .memory-row h3 {
-        font-family: "Tiro Devanagari Hindi", serif;
-        font-size: 26px;
-        font-weight: 400;
-        color: var(--biswar);
-      }
-
-      .memory-row .memory-time {
-        display: block;
-        font-family: "Space Mono", monospace;
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--text-muted);
-        margin-top: 6px;
-      }
-
       .memory-row p {
-        font-size: 12px;
-        color: var(--text-dim);
-        line-height: 1.75;
-        font-weight: 300;
-        max-width: 340px;
-        justify-self: end;
-        text-align: right;
+        grid-column: 1 / -1;
+        justify-self: start;
+        text-align: left;
+        margin-top: 4px;
       }
-
-      @media (max-width: 720px) {
-        .memory-row {
-          grid-template-columns: 50px 1fr;
-        }
-        .memory-row p {
-          grid-column: 1 / -1;
-          justify-self: start;
-          text-align: left;
-          margin-top: 4px;
-        }
+    }
+    .quote-section {
+      padding: 140px 40px;
+      text-align: center;
+      position: relative;
+      z-index: 3;
+      background: rgba(10, 15, 12, 0.15);
+      backdrop-filter: blur(2px);
+    }
+    .quote-mark {
+      font-family: "Fraunces", serif;
+      font-size: 130px;
+      line-height: 0.25;
+      color: var(--geru);
+      opacity: 0.22;
+      font-style: italic;
+      margin-bottom: -6px;
+    }
+    .quote-text {
+      max-width: 780px;
+      margin: 0 auto;
+      font-family: "Tiro Devanagari Hindi", serif;
+      font-size: clamp(28px, 4.4vw, 54px);
+      line-height: 1.3;
+      font-weight: 400;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      min-height: 2.2em;
+      position: relative;
+      z-index: 1;
+      color: var(--biswar);
+      text-shadow: 0 2px 35px rgba(0,0,0,0.6);
+    }
+    .quote-text.fade {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    .quote-attr {
+      margin-top: 26px;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .rotation-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .rotation-card {
+      background: rgba(10, 15, 12, 0.3);
+      padding: 46px 32px;
+      transition: background 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(2px);
+    }
+    .rotation-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--geru);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .rotation-card:hover::before {
+      transform: scaleX(1);
+    }
+    .rotation-card:hover {
+      background: rgba(34, 48, 42, 0.4);
+    }
+    .rotation-time {
+      font-family: "Space Mono", monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--brass);
+      margin-bottom: 46px;
+      font-weight: 500;
+    }
+    .rotation-card h3 {
+      font-family: "Fraunces", serif;
+      font-size: 26px;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      color: var(--biswar);
+      text-shadow: 0 1px 12px rgba(0,0,0,0.3);
+    }
+    .rotation-card p {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.75;
+      font-weight: 300;
+      max-width: 240px;
+    }
+    footer {
+      position: relative;
+      z-index: 3;
+      background: rgba(10, 15, 12, 0.4);
+      backdrop-filter: blur(4px);
+      padding: 55px 50px 175px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 50px;
+      width: 100%;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .footer-brand {
+      font-family: "Fraunces", serif;
+      font-size: 20px;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .footer-brand span {
+      color: var(--geru);
+    }
+    .footer-text {
+      max-width: 480px;
+      color: var(--text-dim);
+      font-size: 10px;
+      line-height: 1.9;
+      font-weight: 300;
+      text-align: right;
+    }
+    .footer-text strong {
+      color: var(--brass);
+      font-weight: 500;
+    }
+    /* --- PLAYER --- */
+    .player {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 40px));
+      z-index: 100;
+    }
+    .player-inner {
+      background: rgba(10, 15, 12, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+    .player-body {
+      padding: 13px 20px;
+    }
+    .player-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+    }
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .ctrl-btn {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      color: var(--text-dim);
+      transition: all 0.2s ease;
+      font-size: 10px;
+      background: transparent;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .ctrl-btn:hover {
+      border-color: var(--line);
+      color: var(--biswar);
+      background: rgba(243, 231, 210, 0.04);
+    }
+    .ctrl-btn.play-btn {
+      width: 34px;
+      height: 34px;
+      background: var(--geru);
+      color: var(--biswar);
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .ctrl-btn.play-btn:hover {
+      background: #cc5637;
+      transform: scale(1.04);
+      box-shadow: 0 0 18px rgba(184, 72, 47, 0.35);
+    }
+    .track-info {
+      min-width: 0;
+    }
+    .track-title {
+      font-family: "Fraunces", serif;
+      font-size: 13px;
+      font-weight: 500;
+      font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text);
+    }
+    .track-meta {
+      margin-top: 3px;
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .player-time {
+      font-size: 9px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-family: "Space Mono", monospace;
+    }
+    .progress-row {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .progress-wrap {
+      flex: 1;
+      height: 2px;
+      background: var(--line);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .progress-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      background: var(--brass);
+      transition: width 0.3s linear;
+      box-shadow: 0 0 8px rgba(204, 154, 77, 0.4);
+    }
+    .player-link {
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .player-link a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .player-link a:hover {
+      color: var(--brass);
+    }
+    #youtube {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      left: -100px;
+      bottom: -100px;
+      opacity: 0.01;
+      pointer-events: none;
+    }
+    .rewind-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(184, 72, 47, 0.25);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 200;
+    }
+    .rewind-overlay.active {
+      animation: rewindFlash 0.5s ease;
+    }
+    @keyframes rewindFlash {
+      0% { opacity: 0; }
+      30% { opacity: 0.5; }
+      100% { opacity: 0; }
+    }
+    @media (max-width: 1024px) {
+      .section-header {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
-
-      .quote-section {
-        padding: 140px 40px;
-        text-align: center;
-        position: relative;
-        z-index: 3;
-        background: linear-gradient(180deg, rgba(184, 72, 47, 0.06), transparent 40%), rgba(20, 29, 24, 0.35);
-      }
-
-      .quote-mark {
-        font-family: "Fraunces", serif;
-        font-size: 130px;
-        line-height: 0.25;
-        color: var(--geru);
-        opacity: 0.22;
-        font-style: italic;
-        margin-bottom: -6px;
-      }
-
-      .quote-text {
-        max-width: 780px;
-        margin: 0 auto;
-        font-family: "Tiro Devanagari Hindi", serif;
-        font-size: clamp(28px, 4.4vw, 54px);
-        line-height: 1.3;
-        font-weight: 400;
-        transition: opacity 0.5s ease, transform 0.5s ease;
-        min-height: 2.2em;
-        position: relative;
-        z-index: 1;
-        color: var(--biswar);
-      }
-
-      .quote-text.fade {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-
-      .quote-attr {
-        margin-top: 26px;
-        font-size: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.22em;
-        color: var(--text-muted);
-        font-weight: 500;
-      }
-
       .rotation-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1px;
-        background: var(--line);
-        border: 1px solid var(--line);
+        grid-template-columns: 1fr;
       }
-
-      .rotation-card {
-        background: var(--panel-soft);
-        padding: 46px 32px;
-        transition: background 0.35s ease;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .rotation-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: var(--geru);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s ease;
-      }
-
-      .rotation-card:hover::before {
-        transform: scaleX(1);
-      }
-
-      .rotation-card:hover {
-        background: var(--panel);
-      }
-
-      .rotation-time {
-        font-family: "Space Mono", monospace;
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--brass);
-        margin-bottom: 46px;
-        font-weight: 500;
-      }
-
-      .rotation-card h3 {
-        font-family: "Fraunces", serif;
-        font-size: 26px;
-        font-weight: 600;
-        font-style: italic;
-        letter-spacing: -0.01em;
-        margin-bottom: 12px;
-        color: var(--biswar);
-      }
-
-      .rotation-card p {
-        font-size: 11px;
-        color: var(--text-dim);
-        line-height: 1.75;
-        font-weight: 300;
-        max-width: 240px;
-      }
-
       footer {
-        position: relative;
-        z-index: 3;
-        background: var(--bg-mid);
-        padding: 55px 50px 175px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 50px;
-        width: 100%;
-        margin: 0;
-        box-sizing: border-box;
+        flex-direction: column;
+        gap: 25px;
+        padding: 45px 35px 160px;
       }
-
-      .footer-brand {
-        font-family: "Fraunces", serif;
-        font-size: 20px;
-        font-weight: 600;
-        font-style: italic;
-        color: var(--text);
-        white-space: nowrap;
-      }
-
-      .footer-brand span {
-        color: var(--geru);
-      }
-
       .footer-text {
-        max-width: 480px;
-        color: var(--text-dim);
-        font-size: 10px;
-        line-height: 1.9;
-        font-weight: 300;
-        text-align: right;
+        text-align: left;
+        max-width: 100%;
       }
-
-      .footer-text strong {
-        color: var(--brass);
-        font-weight: 500;
+    }
+    @media (max-width: 640px) {
+      .topbar {
+        padding: 0 20px;
+        height: 65px;
       }
-
-      /* ---------------------------------------------
-       PLAYER
-    --------------------------------------------- */
+      .top-status span:nth-child(2) {
+        display: none;
+      }
+      .hero-center {
+        padding: 100px 20px 80px;
+      }
+      .section {
+        padding: 60px 20px;
+      }
+      .rotation-card {
+        padding: 32px 24px;
+      }
+      footer {
+        padding: 35px 25px 150px;
+      }
       .player {
-        position: fixed;
-        left: 50%;
-        bottom: 20px;
-        transform: translateX(-50%);
-        width: min(760px, calc(100% - 40px));
-        z-index: 100;
+        width: calc(100% - 16px);
+        bottom: 10px;
       }
-
-      .player-inner {
-        background: rgba(18, 25, 21, 0.96);
-        backdrop-filter: blur(35px);
-        -webkit-backdrop-filter: blur(35px);
-        border: 1px solid var(--line);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
-        overflow: hidden;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
       }
+    }
+  </style>
+</head>
+<body>
+  <!-- BACKGROUND IMAGE — completely clear, with black gradient from bottom -->
+  <div class="bg-container">
+    <img class="bg-image" src="hill.png" alt="Mountain landscape of Uttarakhand" loading="lazy" onerror="this.style.display='none'" />
+    <!-- Black gradient overlay from bottom -->
+    <div class="bg-bottom-gradient"></div>
+  </div>
+  <div class="rewind-overlay" id="rewindOverlay"></div>
 
-      .player-body {
-        padding: 13px 20px;
-      }
+  <div class="main-content">
+    <header class="topbar">
+      <a href="#" class="brand">
+        <span class="brand-mark"></span>
+        कुमाऊँनी गीत
+      </a>
+      <div class="top-status">
+        <span class="live-indicator">
+          <span class="live-pulse"></span>
+          On Air
+        </span>
+        <span>Uttarakhand</span>
+        <span class="indian-time" id="clock">00:00 AM IST</span>
+      </div>
+    </header>
 
-      .player-row {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        gap: 16px;
-        align-items: center;
-      }
+    <section class="hero-center">
+      <svg class="hero-ornament" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#cc9a4d" stroke-width="1.2">
+          <circle cx="30" cy="30" r="27" opacity="0.5" />
+          <circle cx="30" cy="30" r="19" opacity="0.7" />
+        </g>
+        <g fill="#b8482f">
+          <circle cx="30" cy="7" r="2.4" />
+          <circle cx="30" cy="53" r="2.4" />
+          <circle cx="7" cy="30" r="2.4" />
+          <circle cx="53" cy="30" r="2.4" />
+          <circle cx="14" cy="14" r="1.6" opacity="0.75" />
+          <circle cx="46" cy="14" r="1.6" opacity="0.75" />
+          <circle cx="14" cy="46" r="1.6" opacity="0.75" />
+          <circle cx="46" cy="46" r="1.6" opacity="0.75" />
+        </g>
+        <circle cx="30" cy="30" r="5" fill="#cc9a4d" />
+      </svg>
+      <div class="hero-eyebrow">कुमाऊँ की पुरानी धुनों में खोए हुए।</div>
+      <h1 class="hero-title">CLASSIC</h1>
+      <p class="hero-subtitle">कुमाऊँनी गीत</p>
+      <p class="hero-desc">
+        A <em>living archive</em> of Kumaoni folk music — songs that carry
+        the scent of pine forests, the warmth of village hearths, and the
+        echo of mountain valleys.
+      </p>
+      <div class="hero-tags">
+        <span class="tag">लोकगीत</span>
+        <span class="tag-dot"></span>
+        <span class="tag">जागर</span>
+        <span class="tag-dot"></span>
+        <span class="tag">ढोल दमाऊ</span>
+        <span class="tag-dot"></span>
+        <span class="tag">Pahadi Folk</span>
+      </div>
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
 
-      .player-controls {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-      }
+    <div class="aipan-strip"></div>
 
-      .ctrl-btn {
-        width: 30px;
-        height: 30px;
-        display: grid;
-        place-items: center;
-        color: var(--text-dim);
-        transition: all 0.2s ease;
-        font-size: 10px;
-        background: transparent;
-        border: 1px solid transparent;
-        cursor: pointer;
-      }
-
-      .ctrl-btn:hover {
-        border-color: var(--line);
-        color: var(--biswar);
-        background: rgba(243, 231, 210, 0.04);
-      }
-
-      .ctrl-btn.play-btn {
-        width: 34px;
-        height: 34px;
-        background: var(--geru);
-        color: var(--biswar);
-        border: none;
-        font-size: 11px;
-        font-weight: 600;
-      }
-
-      .ctrl-btn.play-btn:hover {
-        background: #cc5637;
-        transform: scale(1.04);
-        box-shadow: 0 0 18px rgba(184, 72, 47, 0.35);
-      }
-
-      .track-info {
-        min-width: 0;
-      }
-
-      .track-title {
-        font-family: "Fraunces", serif;
-        font-size: 13px;
-        font-weight: 500;
-        font-style: italic;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: var(--text);
-      }
-
-      .track-meta {
-        margin-top: 3px;
-        font-size: 7px;
-        text-transform: uppercase;
-        letter-spacing: 0.11em;
-        color: var(--text-muted);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .player-time {
-        font-size: 9px;
-        color: var(--text-muted);
-        white-space: nowrap;
-        font-family: "Space Mono", monospace;
-      }
-
-      .progress-row {
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-
-      .progress-wrap {
-        flex: 1;
-        height: 2px;
-        background: var(--line);
-        overflow: hidden;
-        cursor: pointer;
-        position: relative;
-      }
-
-      .progress-fill {
-        position: absolute;
-        inset: 0 auto 0 0;
-        width: 0%;
-        background: var(--brass);
-        transition: width 0.3s linear;
-        box-shadow: 0 0 8px rgba(204, 154, 77, 0.4);
-      }
-
-      .player-link {
-        font-size: 7px;
-        text-transform: uppercase;
-        letter-spacing: 0.11em;
-        color: var(--text-muted);
-        white-space: nowrap;
-      }
-
-      .player-link a {
-        color: inherit;
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-
-      .player-link a:hover {
-        color: var(--brass);
-      }
-
-      #youtube {
-        position: fixed;
-        width: 1px;
-        height: 1px;
-        left: -100px;
-        bottom: -100px;
-        opacity: 0.01;
-        pointer-events: none;
-      }
-
-      .rewind-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(184, 72, 47, 0.25);
-        pointer-events: none;
-        opacity: 0;
-        z-index: 200;
-      }
-
-      .rewind-overlay.active {
-        animation: rewindFlash 0.5s ease;
-      }
-
-      @keyframes rewindFlash {
-        0% { opacity: 0; }
-        30% { opacity: 0.5; }
-        100% { opacity: 0; }
-      }
-
-      @media (max-width: 1024px) {
-        .section-header {
-          grid-template-columns: 1fr;
-          gap: 20px;
-        }
-        .rotation-grid {
-          grid-template-columns: 1fr;
-        }
-        footer {
-          flex-direction: column;
-          gap: 25px;
-          padding: 45px 35px 160px;
-        }
-        .footer-text {
-          text-align: left;
-          max-width: 100%;
-        }
-      }
-
-      @media (max-width: 640px) {
-        .topbar {
-          padding: 0 20px;
-          height: 65px;
-        }
-        .top-status span:nth-child(2) {
-          display: none;
-        }
-        .hero-center {
-          padding: 100px 20px 80px;
-        }
-        .section {
-          padding: 60px 20px;
-        }
-        .rotation-card {
-          padding: 32px 24px;
-        }
-        footer {
-          padding: 35px 25px 150px;
-        }
-        .player {
-          width: calc(100% - 16px);
-          bottom: 10px;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          scroll-behavior: auto !important;
-          transition-duration: 0.01ms !important;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <!-- BACKGROUND IMAGE — Replace src with your hosted image URL -->
-    <div class="bg-container">
-      <img
-        class="bg-image"
-        src="hill.png"
-        alt="Mountain landscape of Uttarakhand"
-        loading="lazy"
-        onerror="this.style.display='none'"
-      />
-      <div class="bg-fallback"></div>
-    </div>
-    <div class="ambient-glow"></div>
-    <div class="grain"></div>
-    <div class="rewind-overlay" id="rewindOverlay"></div>
-
-    <div class="main-content">
-      <header class="topbar">
-        <a href="#" class="brand">
-          <span class="brand-mark"></span>
-          कुमाऊँनी गीत
-        </a>
-        <div class="top-status">
-          <span class="live-indicator">
-            <span class="live-pulse"></span>
-            On Air
-          </span>
-          <span>Uttarakhand</span>
-          <span class="indian-time" id="clock">00:00 AM IST</span>
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header">
+          <div>
+            <div class="section-num">Ek · The Memory</div>
+            <h2 class="section-title">Songs that feel<br />like home.</h2>
+          </div>
+          <p class="section-desc">
+            Kumaoni music carries a unique kind of memory — the echo of a wedding
+            procession, a cassette playing on a winter evening, or a voice drifting
+            through an open window in the hills.
+          </p>
         </div>
-      </header>
-
-      <section class="hero-center">
-        <svg class="hero-ornament" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" stroke="#cc9a4d" stroke-width="1.2">
-            <circle cx="30" cy="30" r="27" opacity="0.5" />
-            <circle cx="30" cy="30" r="19" opacity="0.7" />
-          </g>
-          <g fill="#b8482f">
-            <circle cx="30" cy="7" r="2.4" />
-            <circle cx="30" cy="53" r="2.4" />
-            <circle cx="7" cy="30" r="2.4" />
-            <circle cx="53" cy="30" r="2.4" />
-            <circle cx="14" cy="14" r="1.6" opacity="0.75" />
-            <circle cx="46" cy="14" r="1.6" opacity="0.75" />
-            <circle cx="14" cy="46" r="1.6" opacity="0.75" />
-            <circle cx="46" cy="46" r="1.6" opacity="0.75" />
-          </g>
-          <circle cx="30" cy="30" r="5" fill="#cc9a4d" />
-        </svg>
-        <div class="hero-eyebrow">कुमाऊँ की पुरानी धुनों में खोए हुए।</div>
-        <h1 class="hero-title">CLASSIC</h1>
-        <p class="hero-subtitle">कुमाऊँनी गीत</p>
-        <p class="hero-desc">
-          A <em>living archive</em> of Kumaoni folk music — songs that carry
-          the scent of pine forests, the warmth of village hearths, and the
-          echo of mountain valleys.
-        </p>
-        <div class="hero-tags">
-          <span class="tag">लोकगीत</span>
-          <span class="tag-dot"></span>
-          <span class="tag">जागर</span>
-          <span class="tag-dot"></span>
-          <span class="tag">ढोल दमाऊ</span>
-          <span class="tag-dot"></span>
-          <span class="tag">Pahadi Folk</span>
-        
-        </div>
-        <div class="scroll-indicator">
-          <span>Scroll</span>
-          <div class="scroll-line"></div>
-        </div>
-      </section>
-
-      <div class="aipan-strip"></div>
-
-      <section class="section">
-        <div class="section-inner">
-          <div class="section-header">
+        <div class="memory-list">
+          <article class="memory-row">
+            <div class="memory-glyph">आ</div>
             <div>
-              <div class="section-num">Ek · The Memory</div>
-              <h2 class="section-title">Songs that feel<br />like home.</h2>
+              <h3>घर का आँगन</h3>
+              <span class="memory-time">First light</span>
             </div>
-            <p class="section-desc">
-              Kumaoni music carries a unique kind of memory — the echo of a wedding
-              procession, a cassette playing on a winter evening, or a voice drifting
-              through an open window in the hills.
-            </p>
-          </div>
-          <div class="memory-list">
-            <article class="memory-row">
-              <div class="memory-glyph">आ</div>
-              <div>
-                <h3>घर का आँगन</h3>
-                <span class="memory-time">First light</span>
-              </div>
-              <p>Chai brewing, and a familiar melody floating through the house.</p>
-            </article>
-            <article class="memory-row">
-              <div class="memory-glyph">श</div>
-              <div>
-                <h3>शादी-ब्याह</h3>
-                <span class="memory-time">Courtyard</span>
-              </div>
-              <p>Relatives arriving, drums in the lane, nights that stretch longer than planned.</p>
-            </article>
-            <article class="memory-row">
-              <div class="memory-glyph">प</div>
-              <div>
-                <h3>पहाड़ी रास्ते</h3>
-                <span class="memory-time">On the road</span>
-              </div>
-              <p>Cold air through the window, and a song that shortens the journey.</p>
-            </article>
-            <article class="memory-row">
-              <div class="memory-glyph">रा</div>
-              <div>
-                <h3>रात की धुन</h3>
-                <span class="memory-time">After dark</span>
-              </div>
-              <p>Quiet hours when the house settles and old memories find room to speak.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="quote-section">
-        <div class="quote-mark">"</div>
-        <div class="quote-text" id="quote">कुछ गीत सुने नहीं जाते — बस याद आ जाते हैं।</div>
-        <div class="quote-attr">The melody changes. The memory stays.</div>
-      </section>
-
-      <div class="aipan-strip dim"></div>
-
-      <section class="section">
-        <div class="section-inner">
-          <div class="section-header">
+            <p>Chai brewing, and a familiar melody floating through the house.</p>
+          </article>
+          <article class="memory-row">
+            <div class="memory-glyph">श</div>
             <div>
-              <div class="section-num">Do · Rotations</div>
-              <h2 class="section-title">One radio,<br />many rhythms.</h2>
+              <h3>शादी-ब्याह</h3>
+              <span class="memory-time">Courtyard</span>
             </div>
-            <p class="section-desc">
-              A listening rhythm inspired by old broadcast routines — songs for working,
-              travelling, gathering, and remembering the hills.
-            </p>
-          </div>
-          <div class="rotation-grid">
-            <article class="rotation-card">
-              <div class="rotation-time">06:00 AM – 11:00 AM IST</div>
-              <h3>सुबह का पहाड़</h3>
-              <p>Open windows, birdsong, and melodies older than the morning light.</p>
-            </article>
-            <article class="rotation-card">
-              <div class="rotation-time">11:00 AM – 05:00 PM IST</div>
-              <h3>दिन की चाल</h3>
-              <p>The working-day soundtrack — lively, familiar, easy to hum along.</p>
-            </article>
-            <article class="rotation-card">
-              <div class="rotation-time">05:00 PM – 12:00 AM IST</div>
-              <h3>रात और यादें</h3>
-              <p>The softer side. For those away from home, and those thinking of it.</p>
-            </article>
-          </div>
+            <p>Relatives arriving, drums in the lane, nights that stretch longer than planned.</p>
+          </article>
+          <article class="memory-row">
+            <div class="memory-glyph">प</div>
+            <div>
+              <h3>पहाड़ी रास्ते</h3>
+              <span class="memory-time">On the road</span>
+            </div>
+            <p>Cold air through the window, and a song that shortens the journey.</p>
+          </article>
+          <article class="memory-row">
+            <div class="memory-glyph">रा</div>
+            <div>
+              <h3>रात की धुन</h3>
+              <span class="memory-time">After dark</span>
+            </div>
+            <p>Quiet hours when the house settles and old memories find room to speak.</p>
+          </article>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <footer>
-        <div class="footer-brand">कुमाऊँनी गीत</div>
-        <p class="footer-text">
-          A tribute to the living memory of Kumaoni folk music — from the hills
-          of Uttarakhand to wherever home finds you.<br /><br />
-          <strong>Audio streams via YouTube.</strong> This page hosts no music files. The player includes the supplied tracks.
-          All rights belong to the original artists, labels, and performers.
-        </p>
-      </footer>
-    </div>
+    <section class="quote-section">
+      <div class="quote-mark">"</div>
+      <div class="quote-text" id="quote">कुछ गीत सुने नहीं जाते — बस याद आ जाते हैं।</div>
+      <div class="quote-attr">The melody changes. The memory stays.</div>
+    </section>
 
-    <div class="player">
-      <div class="player-inner">
-        <div class="player-body">
-          <div class="player-row">
-            <div class="player-controls">
-              <button class="ctrl-btn" id="prevBtn" aria-label="Previous">◀◀</button>
-              <button class="ctrl-btn play-btn" id="playBtn" aria-label="Play/Pause">▶</button>
-              <button class="ctrl-btn" id="nextBtn" aria-label="Next">▶▶</button>
-            </div>
-            <div class="track-info">
-              <div class="track-title" id="songTitle">Classic Kumoni Songs</div>
-              <div class="track-meta" id="songStatus">youtube archive · ready to play</div>
-            </div>
-            <div class="player-time" id="playerTime">00:00</div>
+    <div class="aipan-strip dim"></div>
+
+    <section class="section">
+      <div class="section-inner">
+        <div class="section-header">
+          <div>
+            <div class="section-num">Do · Rotations</div>
+            <h2 class="section-title">One radio,<br />many rhythms.</h2>
           </div>
-          <div class="progress-row">
-            <div class="progress-wrap" id="progress" role="slider" aria-label="Track progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-              <div class="progress-fill" id="progressBar"></div>
-            </div>
+          <p class="section-desc">
+            A listening rhythm inspired by old broadcast routines — songs for working,
+            travelling, gathering, and remembering the hills.
+          </p>
+        </div>
+        <div class="rotation-grid">
+          <article class="rotation-card">
+            <div class="rotation-time">06:00 AM – 11:00 AM IST</div>
+            <h3>सुबह का पहाड़</h3>
+            <p>Open windows, birdsong, and melodies older than the morning light.</p>
+          </article>
+          <article class="rotation-card">
+            <div class="rotation-time">11:00 AM – 05:00 PM IST</div>
+            <h3>दिन की चाल</h3>
+            <p>The working-day soundtrack — lively, familiar, easy to hum along.</p>
+          </article>
+          <article class="rotation-card">
+            <div class="rotation-time">05:00 PM – 12:00 AM IST</div>
+            <h3>रात और यादें</h3>
+            <p>The softer side. For those away from home, and those thinking of it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand">कुमाऊँनी गीत</div>
+      <p class="footer-text">
+        A tribute to the living memory of Kumaoni folk music — from the hills
+        of Uttarakhand to wherever home finds you.<br /><br />
+        <strong>Audio streams via YouTube.</strong> This page hosts no music files. The player includes the supplied tracks.
+        All rights belong to the original artists, labels, and performers.
+      </p>
+    </footer>
+  </div>
+
+  <div class="player">
+    <div class="player-inner">
+      <div class="player-body">
+        <div class="player-row">
+          <div class="player-controls">
+            <button class="ctrl-btn" id="prevBtn" aria-label="Previous">◀◀</button>
+            <button class="ctrl-btn play-btn" id="playBtn" aria-label="Play/Pause">▶</button>
+            <button class="ctrl-btn" id="nextBtn" aria-label="Next">▶▶</button>
+          </div>
+          <div class="track-info">
+            <div class="track-title" id="songTitle">Classic Kumoni Songs</div>
+            <div class="track-meta" id="songStatus">youtube archive · ready to play</div>
+          </div>
+          <div class="player-time" id="playerTime">00:00</div>
+        </div>
+        <div class="progress-row">
+          <div class="progress-wrap" id="progress" role="slider" aria-label="Track progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-fill" id="progressBar"></div>
           </div>
         </div>
       </div>
     </div>
-    <iframe
-      id="youtube"
-      src="https://www.youtube.com/embed/Yq4GkZAxWQw?enablejsapi=1&playsinline=1&controls=0&rel=0&modestbranding=1"
-      allow="autoplay; encrypted-media"
-      title="Kumaoni music player"
-    ></iframe>
+  </div>
+  <iframe id="youtube" src="https://www.youtube.com/embed/Yq4GkZAxWQw?enablejsapi=1&playsinline=1&controls=0&rel=0&modestbranding=1" allow="autoplay; encrypted-media" title="Kumaoni music player"></iframe>
 
-    <script>
-      const clockEl = document.getElementById("clock");
-      function updateClock() {
-        const now = new Date();
-        const indiaTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-        let hours = indiaTime.getHours();
-        const minutes = indiaTime.getMinutes();
-        const seconds = indiaTime.getSeconds();
-        const ampm = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        clockEl.textContent = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")} ${ampm} IST`;
-      }
-      updateClock();
-      setInterval(updateClock, 1000);
+  <script>
+    const clockEl = document.getElementById("clock");
+    function updateClock() {
+      const now = new Date();
+      const indiaTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+      let hours = indiaTime.getHours();
+      const minutes = indiaTime.getMinutes();
+      const seconds = indiaTime.getSeconds();
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      clockEl.textContent = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")} ${ampm} IST`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
 
-      const quotes = [
-        "कुछ गीत सुने नहीं जाते — बस याद आ जाते हैं।",
-        "पहाड़ की आवाज़ में घर की खुशबू होती है।",
-        "एक धुन शुरू होती है, और पूरा बचपन साथ आ जाता है।",
-        "पुराने गीत कभी पुराने नहीं होते।",
-        "जहाँ भी बज जाए — पहचान में आ जाता है।",
-        "गाना खत्म हो जाता है। याद नहीं।",
-      ];
-      const quoteEl = document.getElementById("quote");
-      let quoteIndex = 0;
-      setInterval(() => {
-        quoteEl.classList.add("fade");
-        setTimeout(() => {
-          quoteIndex = (quoteIndex + 1) % quotes.length;
-          quoteEl.textContent = quotes[quoteIndex];
-          quoteEl.classList.remove("fade");
-        }, 500);
-      }, 5000);
+    const quotes = [
+      "कुछ गीत सुने नहीं जाते — बस याद आ जाते हैं।",
+      "पहाड़ की आवाज़ में घर की खुशबू होती है।",
+      "एक धुन शुरू होती है, और पूरा बचपन साथ आ जाता है।",
+      "पुराने गीत कभी पुराने नहीं होते।",
+      "जहाँ भी बज जाए — पहचान में आ जाता है।",
+      "गाना खत्म हो जाता है। याद नहीं।",
+    ];
+    const quoteEl = document.getElementById("quote");
+    let quoteIndex = 0;
+    setInterval(() => {
+      quoteEl.classList.add("fade");
+      setTimeout(() => {
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+        quoteEl.textContent = quotes[quoteIndex];
+        quoteEl.classList.remove("fade");
+      }, 500);
+    }, 5000);
 
-      const iframe = document.getElementById("youtube");
-      let playerReady = false;
-      let isPlaying = false;
-      let currentTime = 0;
-      let duration = 180;
-      let progressInterval = null;
+    const iframe = document.getElementById("youtube");
+    let playerReady = false;
+    let isPlaying = false;
+    let currentTime = 0;
+    let duration = 180;
+    let progressInterval = null;
 
-      const tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      let ytPlayer;
-      function onYouTubeIframeAPIReady() {
-        ytPlayer = new YT.Player('youtube', {
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange,
-          }
-        });
-      }
-
-      function onPlayerReady(event) {
-        playerReady = true;
-        document.getElementById("songStatus").textContent = "youtube archive · ready to play";
-        ytPlayer.setVolume(80);
-        duration = ytPlayer.getDuration() || 180;
-        updateSongLabel();
-      }
-
-      function onPlayerStateChange(event) {
-        if (event.data === YT.PlayerState.PLAYING) {
-          isPlaying = true;
-          updatePlayButton();
-          document.getElementById("songStatus").textContent = "youtube archive · playing";
-          startProgressTracking();
-        } else if (event.data === YT.PlayerState.PAUSED) {
-          isPlaying = false;
-          updatePlayButton();
-          document.getElementById("songStatus").textContent = "youtube archive · paused";
-          stopProgressTracking();
-        } else if (event.data === YT.PlayerState.ENDED) {
-          isPlaying = false;
-          updatePlayButton();
-          document.getElementById("songStatus").textContent = "youtube archive · ended";
-          stopProgressTracking();
-          setTimeout(() => nextTrack(), 1000);
+    let ytPlayer;
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('youtube', {
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange,
         }
-      }
+      });
+    }
 
-      function startProgressTracking() {
+    function onPlayerReady(event) {
+      playerReady = true;
+      document.getElementById("songStatus").textContent = "youtube archive · ready to play";
+      ytPlayer.setVolume(80);
+      duration = ytPlayer.getDuration() || 180;
+      updateSongLabel();
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        isPlaying = true;
+        updatePlayButton();
+        document.getElementById("songStatus").textContent = "youtube archive · playing";
+        startProgressTracking();
+      } else if (event.data === YT.PlayerState.PAUSED) {
+        isPlaying = false;
+        updatePlayButton();
+        document.getElementById("songStatus").textContent = "youtube archive · paused";
         stopProgressTracking();
-        progressInterval = setInterval(() => {
-          if (ytPlayer && playerReady && isPlaying) {
-            currentTime = ytPlayer.getCurrentTime() || 0;
-            duration = ytPlayer.getDuration() || 180;
-            if (duration > 0) {
-              const percent = (currentTime / duration) * 100;
-              document.getElementById("progressBar").style.width = percent + "%";
-              document.getElementById("progress").setAttribute("aria-valuenow", percent.toFixed(1));
-              document.getElementById("playerTime").textContent = formatTime(currentTime);
-            }
-          }
-        }, 200);
+      } else if (event.data === YT.PlayerState.ENDED) {
+        isPlaying = false;
+        updatePlayButton();
+        document.getElementById("songStatus").textContent = "youtube archive · ended";
+        stopProgressTracking();
+        setTimeout(() => nextTrack(), 1000);
       }
+    }
 
-      function stopProgressTracking() {
-        if (progressInterval) {
-          clearInterval(progressInterval);
-          progressInterval = null;
-        }
-      }
-
-      function formatTime(seconds) {
-        seconds = Math.max(0, Math.floor(seconds));
-        const minutes = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
-      }
-
-      const playBtn = document.getElementById("playBtn");
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      const songTitle = document.getElementById("songTitle");
-      const progress = document.getElementById("progress");
-      const progressBar = document.getElementById("progressBar");
-      const playerTime = document.getElementById("playerTime");
-
-      const songs = [
-        { id: "Yq4GkZAxWQw", title: "Kumaoni Track 01" },
-        { id: "43MGWGyzBlM", title: "Kumaoni Track 02" },
-        // { id: "MKJKV_zp9MY", title: "Kumaoni Track 03" },
-        // { id: "oabhsITr7NM", title: "Kumaoni Track 04" },
-        { id: "W02yu-FdlGM", title: "Kumaoni Track 05" },
-        { id: "SCzSFmosmaE", title: "Kumaoni Track 06" },
-        // { id: "BU0Irtvt8ZM", title: "Kumaoni Track 07" },
-        // { id: "h4F1z36ozn0", title: "Kumaoni Track 08" },
-        { id: "AvJox031Hnc", title: "Kumaoni Track 09" },
-        { id: "xNGRsnAexA8", title: "Kumaoni Track 10" },
-        // { id: "VMwGIVVDtG8", title: "Kumaoni Track 11" },
-        { id: "cjaw_GlWuso", title: "Kumaoni Track 12" },
-      ];
-      let virtualTrackIndex = 0;
-
-      function updatePlayButton() {
-        playBtn.textContent = isPlaying ? "⏸" : "▶";
-      }
-
-      function togglePlay() {
-        if (!playerReady || !ytPlayer) return;
-        if (isPlaying) {
-          ytPlayer.pauseVideo();
-        } else {
-          ytPlayer.playVideo();
-        }
-      }
-
-      function loadTrack(index, autoplay = true) {
-        if (!playerReady || !ytPlayer) return;
-        virtualTrackIndex = (index + songs.length) % songs.length;
-        const track = songs[virtualTrackIndex];
-        ytPlayer.loadVideoById(track.id);
-        updateSongLabel();
-        progressBar.style.width = "0%";
-        playerTime.textContent = "00:00";
-        duration = 180;
-        if (!autoplay) {
-          ytPlayer.pauseVideo();
-        }
-      }
-
-      function previousTrack() {
-        loadTrack(virtualTrackIndex - 1);
-      }
-
-      function nextTrack() {
-        loadTrack(virtualTrackIndex + 1);
-      }
-
-      function updateSongLabel() {
-        const track = songs[virtualTrackIndex];
-        songTitle.textContent = track.title;
-      }
-
-      playBtn.addEventListener("click", togglePlay);
-      prevBtn.addEventListener("click", previousTrack);
-      nextBtn.addEventListener("click", nextTrack);
-
-      progress.addEventListener("click", (event) => {
-        if (!playerReady || !ytPlayer) return;
-        const rect = progress.getBoundingClientRect();
-        const ratio = (event.clientX - rect.left) / rect.width;
-        const clamped = Math.max(0, Math.min(1, ratio));
-        const seekTime = clamped * duration;
-        ytPlayer.seekTo(seekTime, true);
-        progressBar.style.width = (clamped * 100) + "%";
-      });
-
-      const rewindOverlay = document.getElementById("rewindOverlay");
-      function rewindEffect() {
-        if (!playerReady || !ytPlayer) return;
-        rewindOverlay.classList.remove("active");
-        void rewindOverlay.offsetWidth;
-        rewindOverlay.classList.add("active");
-        ytPlayer.seekTo(0, true);
-        progressBar.style.width = "0%";
-        playerTime.textContent = "00:00";
-      }
-
-      window.addEventListener("keydown", (event) => {
-        if (event.key.toLowerCase() === "r" && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
-          rewindEffect();
-        }
-        if (event.code === "Space") {
-          const tag = document.activeElement?.tagName;
-          if (tag !== "INPUT" && tag !== "TEXTAREA") {
-            event.preventDefault();
-            togglePlay();
+    function startProgressTracking() {
+      stopProgressTracking();
+      progressInterval = setInterval(() => {
+        if (ytPlayer && playerReady && isPlaying) {
+          currentTime = ytPlayer.getCurrentTime() || 0;
+          duration = ytPlayer.getDuration() || 180;
+          if (duration > 0) {
+            const percent = (currentTime / duration) * 100;
+            document.getElementById("progressBar").style.width = percent + "%";
+            document.getElementById("progress").setAttribute("aria-valuenow", percent.toFixed(1));
+            document.getElementById("playerTime").textContent = formatTime(currentTime);
           }
         }
-      });
+      }, 200);
+    }
 
-      updatePlayButton();
-    </script>
-  </body>
+    function stopProgressTracking() {
+      if (progressInterval) {
+        clearInterval(progressInterval);
+        progressInterval = null;
+      }
+    }
+
+    function formatTime(seconds) {
+      seconds = Math.max(0, Math.floor(seconds));
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+    }
+
+    const playBtn = document.getElementById("playBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const songTitle = document.getElementById("songTitle");
+    const progress = document.getElementById("progress");
+    const progressBar = document.getElementById("progressBar");
+    const playerTime = document.getElementById("playerTime");
+
+    const songs = [
+      { id: "Yq4GkZAxWQw", title: "Kumaoni Track 01" },
+      { id: "43MGWGyzBlM", title: "Kumaoni Track 02" },
+      { id: "W02yu-FdlGM", title: "Kumaoni Track 05" },
+      { id: "SCzSFmosmaE", title: "Kumaoni Track 06" },
+      { id: "AvJox031Hnc", title: "Kumaoni Track 09" },
+      { id: "xNGRsnAexA8", title: "Kumaoni Track 10" },
+      { id: "cjaw_GlWuso", title: "Kumaoni Track 12" },
+    ];
+    let virtualTrackIndex = 0;
+
+    function updatePlayButton() {
+      playBtn.textContent = isPlaying ? "⏸" : "▶";
+    }
+
+    function togglePlay() {
+      if (!playerReady || !ytPlayer) return;
+      if (isPlaying) {
+        ytPlayer.pauseVideo();
+      } else {
+        ytPlayer.playVideo();
+      }
+    }
+
+    function loadTrack(index, autoplay = true) {
+      if (!playerReady || !ytPlayer) return;
+      virtualTrackIndex = (index + songs.length) % songs.length;
+      const track = songs[virtualTrackIndex];
+      ytPlayer.loadVideoById(track.id);
+      updateSongLabel();
+      progressBar.style.width = "0%";
+      playerTime.textContent = "00:00";
+      duration = 180;
+      if (!autoplay) {
+        ytPlayer.pauseVideo();
+      }
+    }
+
+    function previousTrack() {
+      loadTrack(virtualTrackIndex - 1);
+    }
+
+    function nextTrack() {
+      loadTrack(virtualTrackIndex + 1);
+    }
+
+    function updateSongLabel() {
+      const track = songs[virtualTrackIndex];
+      songTitle.textContent = track.title;
+    }
+
+    playBtn.addEventListener("click", togglePlay);
+    prevBtn.addEventListener("click", previousTrack);
+    nextBtn.addEventListener("click", nextTrack);
+
+    progress.addEventListener("click", (event) => {
+      if (!playerReady || !ytPlayer) return;
+      const rect = progress.getBoundingClientRect();
+      const ratio = (event.clientX - rect.left) / rect.width;
+      const clamped = Math.max(0, Math.min(1, ratio));
+      const seekTime = clamped * duration;
+      ytPlayer.seekTo(seekTime, true);
+      progressBar.style.width = (clamped * 100) + "%";
+    });
+
+    const rewindOverlay = document.getElementById("rewindOverlay");
+    function rewindEffect() {
+      if (!playerReady || !ytPlayer) return;
+      rewindOverlay.classList.remove("active");
+      void rewindOverlay.offsetWidth;
+      rewindOverlay.classList.add("active");
+      ytPlayer.seekTo(0, true);
+      progressBar.style.width = "0%";
+      playerTime.textContent = "00:00";
+    }
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key.toLowerCase() === "r" && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
+        rewindEffect();
+      }
+      if (event.code === "Space") {
+        const tag = document.activeElement?.tagName;
+        if (tag !== "INPUT" && tag !== "TEXTAREA") {
+          event.preventDefault();
+          togglePlay();
+        }
+      }
+    });
+
+    updatePlayButton();
+  </script>
+</body>
 </html>
