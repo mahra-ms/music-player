@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Classic kamauni — पहाड़ की आवाज़</title>
-  <meta name="description" content="Classic Kumoni songs — a living radio archive for Kumaoni memories, melodies and mountain evenings." />
+  <title>Classic Kumaoni — पहाड़ की आवाज़</title>
+  <meta name="description" content="Classic Kumaoni songs — a living radio archive for Kumaoni memories, melodies and mountain evenings." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,500;1,9..144,600&family=Tiro+Devanagari+Hindi&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #141d18;
-      --bg-mid: #1c2620;
       --panel: #22302a;
-      --panel-soft: rgba(34, 48, 42, 0.25);
       --geru: #b8482f;
       --geru-soft: rgba(184, 72, 47, 0.5);
       --brass: #cc9a4d;
@@ -22,16 +20,10 @@
       --text-dim: rgba(243, 231, 210, 0.62);
       --text-muted: rgba(243, 231, 210, 0.38);
       --line: rgba(243, 231, 210, 0.1);
-      --max: 1360px;
+      --max: 1100px;
     }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       background: #0a0f0c;
       color: var(--text);
@@ -40,735 +32,198 @@
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
-      position: relative;
-      margin: 0;
-      padding: 0;
     }
-    ::selection {
-      background: var(--geru);
-      color: var(--biswar);
-    }
-    /* --- BACKGROUND — with parallax effect --- */
-    .bg-container {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-      background: #0a0f0c;
-      /* Parallax container, image will be scaled up to allow movement */
-    }
+    ::selection { background: var(--geru); color: var(--biswar); }
+
+    .bg-container { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: #0a0f0c; }
     .bg-image {
-      position: absolute;
-      /* Scale up to allow smooth parallax movement without showing edges */
-      width: 110%;
-      height: 110%;
-      top: -5%;
-      left: -5%;
-      object-fit: cover;
-      opacity: 1;
-      filter: brightness(0.35) saturate(1.1) contrast(1.09);
-      transition: transform 0.1s ease-out;
-      will-change: transform;
+      position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
+      object-fit: cover; filter: brightness(0.32) saturate(1.1) contrast(1.09);
+      transition: transform 0.1s ease-out; will-change: transform;
     }
-    /* Black gradient filter from bottom side */
     .bg-bottom-gradient {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 35%;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
-      pointer-events: none;
-      z-index: 1;
+      position: absolute; bottom: 0; left: 0; width: 100%; height: 45%;
+      background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0) 100%);
+      pointer-events: none; z-index: 1;
     }
-    .ambient-glow {
-      display: none;
-    }
-    .grain {
-      display: none;
-    }
-    .main-content {
-      position: relative;
-      z-index: 3;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    /* --- AIPAN DIVIDER --- */
-    .aipan-strip {
-      height: 15px;
-      width: 100%;
-      background-image: url("data:image/svg+xml,%3Csvg width='42' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='7.5' r='2' fill='%23b8482f'/%3E%3Crect x='16' y='3.5' width='8' height='8' fill='%23cc9a4d' transform='rotate(45 20 7.5)'/%3E%3Ccircle cx='36' cy='7.5' r='2' fill='%23b8482f'/%3E%3C/svg%3E");
-      background-repeat: repeat-x;
-      background-position: center;
-      opacity: 0.55;
-    }
-    .aipan-strip.dim {
-      opacity: 0.28;
-    }
-    /* --- TOP BAR --- */
+    .main-content { position: relative; z-index: 3; min-height: 100vh; display: flex; flex-direction: column; }
+
     .topbar {
-      height: 78px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 20;
-      border-bottom: 1px solid var(--line);
-      background: rgba(10, 15, 12, 0.5);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      height: 78px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+      border-bottom: 1px solid var(--line); background: rgba(10, 15, 12, 0.5);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: "Fraunces", serif;
-      font-size: 17px;
-      font-weight: 600;
-      font-style: italic;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.2px;
+      display: flex; align-items: center; gap: 12px;
+      font-family: "Fraunces", serif; font-size: 17px; font-weight: 600; font-style: italic;
+      color: var(--text); text-decoration: none; letter-spacing: -0.2px;
     }
-    .brand-mark {
-      width: 9px;
-      height: 9px;
-      background: var(--geru);
-      transform: rotate(45deg);
-      box-shadow: 0 0 12px rgba(184, 72, 47, 0.5);
+    .brand-mark { width: 9px; height: 9px; background: var(--geru); transform: rotate(45deg); box-shadow: 0 0 12px rgba(184,72,47,0.5); }
+    .top-right { display: flex; align-items: center; gap: 22px; }
+    .top-status { display: flex; align-items: center; gap: 26px; color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.13em; font-weight: 500; }
+    .live-indicator { display: flex; align-items: center; gap: 7px; color: var(--brass); }
+    .live-pulse { width: 5px; height: 5px; background: var(--geru); border-radius: 50%; animation: pulse 2s ease-in-out infinite; box-shadow: 0 0 8px rgba(184,72,47,0.6); }
+    @keyframes pulse { 0%,100% { opacity:.25; transform:scale(.8);} 50% { opacity:1; transform:scale(1.2);} }
+    .indian-time { font-family: "Space Mono", monospace; font-size: 11px; color: var(--brass); letter-spacing: 0.05em; font-weight: 500; }
+    .listeners {
+      display: flex; align-items: center; gap: 6px; font-family: "Space Mono", monospace;
+      font-size: 10px; color: var(--text-dim);
     }
-    .top-status {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      color: var(--text-muted);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      font-weight: 500;
+    .listeners-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--brass); }
+
+    .playlist-toggle {
+      display: flex; align-items: center; gap: 9px;
+      padding: 9px 16px; background: transparent; border: 1px solid var(--line);
+      color: var(--biswar); font-family: "Work Sans", sans-serif; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500;
+      cursor: pointer; transition: all 0.25s ease;
     }
-    .live-indicator {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      color: var(--brass);
-    }
-    .live-pulse {
-      width: 5px;
-      height: 5px;
-      background: var(--geru);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-      box-shadow: 0 0 8px rgba(184, 72, 47, 0.6);
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.25; transform: scale(0.8); }
-      50% { opacity: 1; transform: scale(1.2); }
-    }
-    .indian-time {
-      font-family: "Space Mono", monospace;
-      font-size: 11px;
-      color: var(--brass);
-      letter-spacing: 0.05em;
-      font-weight: 500;
-    }
-    /* --- HERO --- */
+    .playlist-toggle:hover { border-color: var(--geru); background: rgba(184,72,47,0.1); color: var(--brass); }
+    .playlist-toggle .bars { display: flex; align-items: flex-end; gap: 2px; width: 12px; height: 11px; }
+    .playlist-toggle .bars span { flex: 1; background: currentColor; }
+    .playlist-toggle .bars span:nth-child(1) { height: 45%; }
+    .playlist-toggle .bars span:nth-child(2) { height: 100%; }
+    .playlist-toggle .bars span:nth-child(3) { height: 65%; }
+
     .hero-center {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 130px 40px 90px;
-      position: relative;
-      z-index: 3;
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 130px 40px 90px; position: relative; z-index: 3;
     }
-    .hero-ornament {
-      width: 60px;
-      height: 60px;
-      opacity: 0.75;
-      margin-bottom: 26px;
-      animation: spin-slow 60s linear infinite;
-    }
-    @keyframes spin-slow {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .hero-eyebrow {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.26em;
-      color: var(--brass);
-      margin-bottom: 30px;
-      font-weight: 500;
-    }
+    .hero-ornament { width: 56px; height: 56px; opacity: .75; margin-bottom: 24px; animation: spin-slow 60s linear infinite; }
+    @keyframes spin-slow { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+    .hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: .26em; color: var(--brass); margin-bottom: 26px; font-weight: 500; }
     .hero-title {
-      font-family: "Fraunces", serif;
-      font-size: clamp(70px, 12vw, 175px);
-      font-weight: 900;
-      font-style: italic;
-      line-height: 0.84;
-      letter-spacing: -0.03em;
-      color: var(--biswar);
-      margin-bottom: 10px;
-      text-shadow: 0 4px 40px rgba(0,0,0,0.7);
-    }
-    .hero-title .accent {
-      color: var(--geru);
-      -webkit-text-stroke: 0;
+      font-family: "Fraunces", serif; font-size: clamp(58px, 10vw, 140px); font-weight: 900; font-style: italic;
+      line-height: .84; letter-spacing: -.03em; color: var(--biswar); margin-bottom: 8px; text-shadow: 0 4px 40px rgba(0,0,0,.7);
     }
     .hero-subtitle {
-      font-family: "Tiro Devanagari Hindi", serif;
-      font-size: clamp(28px, 4.2vw, 48px);
-      font-weight: 400;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      color: var(--brass);
-      margin-bottom: 22px;
-      text-shadow: 0 2px 30px rgba(0,0,0,0.7);
+      font-family: "Tiro Devanagari Hindi", serif; font-size: clamp(24px, 3.6vw, 42px); font-weight: 400;
+      line-height: 1.2; color: var(--brass); margin-bottom: 22px; text-shadow: 0 2px 30px rgba(0,0,0,.7);
     }
-    .hero-desc {
-      max-width: 520px;
-      font-size: 13px;
-      color: var(--text-dim);
-      line-height: 1.85;
-      font-weight: 300;
-      margin-bottom: 40px;
-      background: rgba(0,0,0,0.35);
-      padding: 10px 22px;
-      border-radius: 40px;
-      backdrop-filter: blur(4px);
+    .hero-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; justify-content: center; margin-bottom: 8px; }
+    .tag { font-size: 10px; text-transform: uppercase; letter-spacing: .11em; color: var(--text-dim); font-weight: 500; }
+    .tag-dot { width: 3px; height: 3px; background: var(--geru-soft); border-radius: 50%; }
+
+    .aipan-strip {
+      height: 15px; width: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg width='42' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='7.5' r='2' fill='%23b8482f'/%3E%3Crect x='16' y='3.5' width='8' height='8' fill='%23cc9a4d' transform='rotate(45 20 7.5)'/%3E%3Ccircle cx='36' cy='7.5' r='2' fill='%23b8482f'/%3E%3C/svg%3E");
+      background-repeat: repeat-x; background-position: center; opacity: 0.4;
     }
-    .hero-desc em {
-      color: var(--text);
-      font-style: italic;
-      font-family: "Fraunces", serif;
-      font-weight: 500;
-    }
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 14px;
-      justify-content: center;
-    }
-    .tag {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: var(--text-dim);
-      font-weight: 500;
-    }
-    .tag-dot {
-      width: 3px;
-      height: 3px;
-      background: var(--geru-soft);
-      border-radius: 50%;
-    }
-    .scroll-indicator {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-muted);
-      font-size: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      animation: floatDown 2s ease-in-out infinite;
-    }
-    .scroll-line {
-      width: 1px;
-      height: 42px;
-      background: linear-gradient(to bottom, var(--brass), transparent);
-    }
-    @keyframes floatDown {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(8px); }
-    }
-    /* --- SECTIONS with minimal backdrop --- */
-    .section {
-      padding: 96px 40px;
-      position: relative;
-      z-index: 3;
-      background: rgba(10, 15, 12, 0.2);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-    }
-    .section-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-    }
-    .section-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      margin-bottom: 64px;
-      align-items: end;
-    }
-    .section-num {
-      font-family: "Space Mono", monospace;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--brass);
-      margin-bottom: 16px;
-      font-weight: 500;
-    }
-    .section-title {
-      font-family: "Fraunces", serif;
-      font-size: clamp(32px, 4.2vw, 56px);
-      line-height: 0.98;
-      letter-spacing: -0.02em;
-      font-weight: 600;
-      font-style: italic;
-      color: var(--biswar);
-      text-shadow: 0 2px 25px rgba(0,0,0,0.6);
-    }
-    .section-desc {
-      color: var(--text-dim);
-      font-size: 12px;
-      line-height: 1.85;
-      font-weight: 300;
-      background: rgba(0,0,0,0.25);
-      padding: 8px 18px;
-      border-radius: 30px;
-      backdrop-filter: blur(2px);
-    }
-    .memory-list {
-      display: flex;
-      flex-direction: column;
-    }
-    .memory-row {
-      display: grid;
-      grid-template-columns: 90px 1fr 1fr;
-      gap: 30px;
-      align-items: center;
-      padding: 34px 0;
-      border-top: 1px solid var(--line);
-      transition: padding 0.35s ease;
-    }
-    .memory-row:last-child {
-      border-bottom: 1px solid var(--line);
-    }
-    .memory-row:hover {
-      padding-left: 10px;
-    }
-    .memory-glyph {
-      font-family: "Tiro Devanagari Hindi", serif;
-      font-size: 34px;
-      color: var(--geru-soft);
-      transition: color 0.3s ease;
-    }
-    .memory-row:hover .memory-glyph {
-      color: var(--geru);
-    }
-    .memory-row h3 {
-      font-family: "Tiro Devanagari Hindi", serif;
-      font-size: 26px;
-      font-weight: 400;
-      color: var(--biswar);
-      text-shadow: 0 1px 12px rgba(0,0,0,0.4);
-    }
-    .memory-row .memory-time {
-      display: block;
-      font-family: "Space Mono", monospace;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-    .memory-row p {
-      font-size: 12px;
-      color: var(--text-dim);
-      line-height: 1.75;
-      font-weight: 300;
-      max-width: 340px;
-      justify-self: end;
-      text-align: right;
-    }
-    @media (max-width: 720px) {
-      .memory-row {
-        grid-template-columns: 50px 1fr;
-      }
-      .memory-row p {
-        grid-column: 1 / -1;
-        justify-self: start;
-        text-align: left;
-        margin-top: 4px;
-      }
-    }
-    .quote-section {
-      padding: 140px 40px;
-      text-align: center;
-      position: relative;
-      z-index: 3;
-      background: rgba(10, 15, 12, 0.15);
-      backdrop-filter: blur(2px);
-    }
-    .quote-mark {
-      font-family: "Fraunces", serif;
-      font-size: 130px;
-      line-height: 0.25;
-      color: var(--geru);
-      opacity: 0.22;
-      font-style: italic;
-      margin-bottom: -6px;
-    }
-    .quote-text {
-      max-width: 780px;
-      margin: 0 auto;
-      font-family: "Tiro Devanagari Hindi", serif;
-      font-size: clamp(28px, 4.4vw, 54px);
-      line-height: 1.3;
-      font-weight: 400;
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      min-height: 2.2em;
-      position: relative;
-      z-index: 1;
-      color: var(--biswar);
-      text-shadow: 0 2px 35px rgba(0,0,0,0.6);
-    }
-    .quote-text.fade {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    .quote-attr {
-      margin-top: 26px;
-      font-size: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-    .rotation-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-    }
-    .rotation-card {
-      background: rgba(10, 15, 12, 0.3);
-      padding: 46px 32px;
-      transition: background 0.35s ease;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(2px);
-    }
-    .rotation-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--geru);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
-    }
-    .rotation-card:hover::before {
-      transform: scaleX(1);
-    }
-    .rotation-card:hover {
-      background: rgba(34, 48, 42, 0.4);
-    }
-    .rotation-time {
-      font-family: "Space Mono", monospace;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--brass);
-      margin-bottom: 46px;
-      font-weight: 500;
-    }
-    .rotation-card h3 {
-      font-family: "Fraunces", serif;
-      font-size: 26px;
-      font-weight: 600;
-      font-style: italic;
-      letter-spacing: -0.01em;
-      margin-bottom: 12px;
-      color: var(--biswar);
-      text-shadow: 0 1px 12px rgba(0,0,0,0.3);
-    }
-    .rotation-card p {
-      font-size: 11px;
-      color: var(--text-dim);
-      line-height: 1.75;
-      font-weight: 300;
-      max-width: 240px;
-    }
+
     footer {
-      position: relative;
-      z-index: 3;
-      background: rgba(10, 15, 12, 0.4);
-      backdrop-filter: blur(4px);
-      padding: 55px 50px 175px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 50px;
-      width: 100%;
-      margin: 0;
-      box-sizing: border-box;
+      position: relative; z-index: 3; background: rgba(10,15,12,0.4); backdrop-filter: blur(4px);
+      padding: 50px 50px 175px; display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 50px; width: 100%; box-sizing: border-box;
     }
-    .footer-brand {
-      font-family: "Fraunces", serif;
-      font-size: 20px;
-      font-weight: 600;
-      font-style: italic;
-      color: var(--text);
-      white-space: nowrap;
+    .footer-brand { font-family: "Fraunces", serif; font-size: 19px; font-weight: 600; font-style: italic; color: var(--text); white-space: nowrap; }
+    .footer-text { max-width: 460px; color: var(--text-dim); font-size: 10px; line-height: 1.9; font-weight: 300; text-align: right; }
+    .footer-text strong { color: var(--brass); font-weight: 500; }
+
+    /* --- PLAYLIST DRAWER --- */
+    .drawer-backdrop {
+      position: fixed; inset: 0; background: rgba(4,6,5,0.55); backdrop-filter: blur(2px);
+      z-index: 40; opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
     }
-    .footer-brand span {
-      color: var(--geru);
+    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+
+    .playlist-drawer {
+      position: fixed; top: 0; right: 0; height: 100%; width: min(420px, 88vw);
+      background: #10160f; border-left: 1px solid var(--line);
+      z-index: 50; transform: translateX(100%); transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+      display: flex; flex-direction: column; box-shadow: -30px 0 60px rgba(0,0,0,0.5);
     }
-    .footer-text {
-      max-width: 480px;
-      color: var(--text-dim);
-      font-size: 10px;
-      line-height: 1.9;
-      font-weight: 300;
-      text-align: right;
+    .playlist-drawer.open { transform: translateX(0); }
+    .drawer-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 24px 18px; border-bottom: 1px solid var(--line);
     }
-    .footer-text strong {
-      color: var(--brass);
-      font-weight: 500;
+    .drawer-header h2 {
+      font-family: "Fraunces", serif; font-size: 22px; font-weight: 600; font-style: italic; color: var(--biswar);
     }
+    .drawer-header .sub { font-family: "Space Mono", monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .14em; color: var(--brass); margin-top: 4px; }
+    .drawer-close {
+      width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid var(--line);
+      background: transparent; color: var(--text-dim); cursor: pointer; font-size: 14px; flex-shrink: 0;
+      transition: all .2s ease;
+    }
+    .drawer-close:hover { border-color: var(--geru); color: var(--brass); }
+    .track-list { display: flex; flex-direction: column; overflow-y: auto; flex: 1; padding-bottom: 100px; }
+    .track-row {
+      display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 14px;
+      padding: 16px 24px; border-top: 1px solid var(--line); cursor: pointer;
+      background: transparent; transition: background .25s ease;
+    }
+    .track-row:first-child { border-top: none; }
+    .track-row:hover { background: rgba(243,231,210,0.03); }
+    .track-row.active { background: rgba(184,72,47,0.1); }
+    .track-num { font-family: "Space Mono", monospace; font-size: 11px; color: var(--text-muted); }
+    .track-row.active .track-num { color: var(--geru); }
+    .track-main .t-title { font-family: "Tiro Devanagari Hindi", serif; font-size: 17px; color: var(--biswar); font-weight: 400; }
+    .track-row.active .t-title { color: var(--brass); }
+    .track-main .t-meta { margin-top: 3px; font-family: "Space Mono", monospace; font-size: 8px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-muted); }
+    .track-eq { width: 14px; height: 12px; display: flex; align-items: flex-end; gap: 2px; opacity: 0; }
+    .track-row.active .track-eq { opacity: 1; }
+    .track-eq span { flex: 1; background: var(--geru); animation: eq 1s ease-in-out infinite; }
+    .track-eq span:nth-child(1) { height: 40%; animation-delay: 0s; }
+    .track-eq span:nth-child(2) { height: 100%; animation-delay: .2s; }
+    .track-eq span:nth-child(3) { height: 65%; animation-delay: .4s; }
+    @keyframes eq { 0%,100% { transform: scaleY(.4); } 50% { transform: scaleY(1); } }
+
     /* --- PLAYER --- */
-    .player {
-      position: fixed;
-      left: 50%;
-      bottom: 20px;
-      transform: translateX(-50%);
-      width: min(760px, calc(100% - 40px));
-      z-index: 100;
-    }
+    .player { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); width: min(760px, calc(100% - 40px)); z-index: 20; }
     .player-inner {
-      background: rgba(10, 15, 12, 0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--line);
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
-      overflow: hidden;
+      background: rgba(10,15,12,0.94); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line); box-shadow: 0 25px 50px rgba(0,0,0,0.55); overflow: hidden;
     }
-    .player-body {
-      padding: 13px 20px;
-    }
-    .player-row {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 16px;
-      align-items: center;
-    }
-    .player-controls {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+    .player-body { padding: 13px 20px; }
+    .player-row { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+    .player-controls { display: flex; align-items: center; gap: 5px; }
     .ctrl-btn {
-      width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      color: var(--text-dim);
-      transition: all 0.2s ease;
-      font-size: 10px;
-      background: transparent;
-      border: 1px solid transparent;
-      cursor: pointer;
+      width: 30px; height: 30px; display: grid; place-items: center; color: var(--text-dim);
+      transition: all .2s ease; font-size: 10px; background: transparent; border: 1px solid transparent; cursor: pointer;
     }
-    .ctrl-btn:hover {
-      border-color: var(--line);
-      color: var(--biswar);
-      background: rgba(243, 231, 210, 0.04);
-    }
-    .ctrl-btn.play-btn {
-      width: 34px;
-      height: 34px;
-      background: var(--geru);
-      color: var(--biswar);
-      border: none;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    .ctrl-btn.play-btn:hover {
-      background: #cc5637;
-      transform: scale(1.04);
-      box-shadow: 0 0 18px rgba(184, 72, 47, 0.35);
-    }
-    .track-info {
-      min-width: 0;
-    }
-    .track-title {
-      font-family: "Fraunces", serif;
-      font-size: 13px;
-      font-weight: 500;
-      font-style: italic;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: var(--text);
-    }
-    .track-meta {
-      margin-top: 3px;
-      font-size: 7px;
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .player-time {
-      font-size: 9px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      font-family: "Space Mono", monospace;
-    }
-    .progress-row {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .progress-wrap {
-      flex: 1;
-      height: 2px;
-      background: var(--line);
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-    }
-    .progress-fill {
-      position: absolute;
-      inset: 0 auto 0 0;
-      width: 0%;
-      background: var(--brass);
-      transition: width 0.3s linear;
-      box-shadow: 0 0 8px rgba(204, 154, 77, 0.4);
-    }
-    .player-link {
-      font-size: 7px;
-      text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-    .player-link a {
-      color: inherit;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .player-link a:hover {
-      color: var(--brass);
-    }
-    #youtube {
-      position: fixed;
-      width: 1px;
-      height: 1px;
-      left: -100px;
-      bottom: -100px;
-      opacity: 0.01;
-      pointer-events: none;
-    }
-    .rewind-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(184, 72, 47, 0.25);
-      pointer-events: none;
-      opacity: 0;
-      z-index: 200;
-    }
-    .rewind-overlay.active {
-      animation: rewindFlash 0.5s ease;
-    }
-    @keyframes rewindFlash {
-      0% { opacity: 0; }
-      30% { opacity: 0.5; }
-      100% { opacity: 0; }
-    }
-    @media (max-width: 1024px) {
-      .section-header {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      .rotation-grid {
-        grid-template-columns: 1fr;
-      }
-      footer {
-        flex-direction: column;
-        gap: 25px;
-        padding: 45px 35px 160px;
-      }
-      .footer-text {
-        text-align: left;
-        max-width: 100%;
-      }
-    }
+    .ctrl-btn:hover { border-color: var(--line); color: var(--biswar); background: rgba(243,231,210,0.04); }
+    .ctrl-btn.play-btn { width: 34px; height: 34px; background: var(--geru); color: var(--biswar); border: none; font-size: 11px; font-weight: 600; }
+    .ctrl-btn.play-btn:hover { background: #cc5637; transform: scale(1.04); box-shadow: 0 0 18px rgba(184,72,47,0.35); }
+    .track-info { min-width: 0; }
+    .track-title { font-family: "Fraunces", serif; font-size: 13px; font-weight: 500; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+    .track-meta { margin-top: 3px; font-size: 7px; text-transform: uppercase; letter-spacing: .11em; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .player-time { font-size: 9px; color: var(--text-muted); white-space: nowrap; font-family: "Space Mono", monospace; }
+    .progress-row { margin-top: 10px; display: flex; align-items: center; gap: 12px; }
+    .progress-wrap { flex: 1; height: 2px; background: var(--line); overflow: hidden; cursor: pointer; position: relative; }
+    .progress-fill { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--brass); transition: width .3s linear; box-shadow: 0 0 8px rgba(204,154,77,0.4); }
+    .vol-wrap { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+    .vol-label { font-size: 7px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-muted); }
+    #volume { flex: 1; -webkit-appearance: none; appearance: none; height: 2px; background: var(--line); outline: none; cursor: pointer; }
+    #volume::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 9px; height: 9px; border-radius: 50%; background: var(--brass); cursor: pointer; }
+    #volume::-moz-range-thumb { width: 9px; height: 9px; border-radius: 50%; background: var(--brass); cursor: pointer; border: none; }
+    #youtube { position: fixed; width: 1px; height: 1px; left: -100px; bottom: -100px; opacity: .01; pointer-events: none; }
+    .rewind-overlay { position: fixed; inset: 0; background: rgba(184,72,47,0.25); pointer-events: none; opacity: 0; z-index: 200; }
+    .rewind-overlay.active { animation: rewindFlash .5s ease; }
+    @keyframes rewindFlash { 0%{opacity:0;} 30%{opacity:.5;} 100%{opacity:0;} }
+
     @media (max-width: 640px) {
-      .topbar {
-        padding: 0 20px;
-        height: 65px;
-      }
-      .top-status span:nth-child(2) {
-        display: none;
-      }
-      .hero-center {
-        padding: 100px 20px 80px;
-      }
-      .section {
-        padding: 60px 20px;
-      }
-      .rotation-card {
-        padding: 32px 24px;
-      }
-      footer {
-        padding: 35px 25px 150px;
-      }
-      .player {
-        width: calc(100% - 16px);
-        bottom: 10px;
-      }
-      /* Reduce parallax intensity on mobile for performance/feel */
-      .bg-image {
-        width: 105%;
-        height: 105%;
-        top: -2.5%;
-        left: -2.5%;
-      }
+      .topbar { padding: 0 20px; height: 65px; }
+      .top-status span:nth-child(2) { display: none; }
+      .listeners { display: none; }
+      .hero-center { padding: 100px 20px 80px; }
+      footer { flex-direction: column; gap: 25px; padding: 35px 25px 150px; }
+      .footer-text { text-align: left; max-width: 100%; }
+      .player { width: calc(100% - 16px); bottom: 10px; }
+      .playlist-drawer { width: 100vw; }
+      .playlist-toggle span.label { display: none; }
     }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-        transition-duration: 0.01ms !important;
-      }
-      .bg-image {
-        transition: none !important;
-      }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .bg-image { transition: none !important; }
+      .playlist-drawer, .drawer-backdrop { transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <!-- BACKGROUND IMAGE — with parallax effect via mouse movement -->
   <div class="bg-container" id="bgContainer">
-    <img class="bg-image" id="bgImage" src="hill.png" alt="Mountain landscape of Uttarakhand" loading="lazy" onerror="this.style.display='none'" />
-    <!-- Black gradient overlay from bottom -->
+    <img class="bg-image" id="bgImage" src="https://images.unsplash.com/photo-1623612175509-30e97f5aa195?fm=jpg&q=80&w=2400&auto=format&fit=crop" alt="Green terraced hills of the Uttarakhand Himalayas" loading="lazy" />
     <div class="bg-bottom-gradient"></div>
   </div>
   <div class="rewind-overlay" id="rewindOverlay"></div>
@@ -779,13 +234,17 @@
         <span class="brand-mark"></span>
         कुमाऊँनी गीत
       </a>
-      <div class="top-status">
-        <span class="live-indicator">
-          <span class="live-pulse"></span>
-          On Air
-        </span>
-        <span>Uttarakhand</span>
-        <span class="indian-time" id="clock">00:00 AM IST</span>
+      <div class="top-right">
+        <div class="top-status">
+          <span class="live-indicator"><span class="live-pulse"></span>On Air</span>
+          <span>Uttarakhand</span>
+          <span class="listeners"><span class="listeners-dot"></span><span id="listenerCount">—</span> tuned in</span>
+          <span class="indian-time" id="clock">00:00 AM IST</span>
+        </div>
+        <button class="playlist-toggle" id="playlistToggle" aria-haspopup="true" aria-expanded="false">
+          <span class="bars"><span></span><span></span><span></span></span>
+          <span class="label">Playlist</span>
+        </button>
       </div>
     </header>
 
@@ -796,142 +255,48 @@
           <circle cx="30" cy="30" r="19" opacity="0.7" />
         </g>
         <g fill="#b8482f">
-          <circle cx="30" cy="7" r="2.4" />
-          <circle cx="30" cy="53" r="2.4" />
-          <circle cx="7" cy="30" r="2.4" />
-          <circle cx="53" cy="30" r="2.4" />
-          <circle cx="14" cy="14" r="1.6" opacity="0.75" />
-          <circle cx="46" cy="14" r="1.6" opacity="0.75" />
-          <circle cx="14" cy="46" r="1.6" opacity="0.75" />
-          <circle cx="46" cy="46" r="1.6" opacity="0.75" />
+          <circle cx="30" cy="7" r="2.4" /><circle cx="30" cy="53" r="2.4" />
+          <circle cx="7" cy="30" r="2.4" /><circle cx="53" cy="30" r="2.4" />
+          <circle cx="14" cy="14" r="1.6" opacity="0.75" /><circle cx="46" cy="14" r="1.6" opacity="0.75" />
+          <circle cx="14" cy="46" r="1.6" opacity="0.75" /><circle cx="46" cy="46" r="1.6" opacity="0.75" />
         </g>
         <circle cx="30" cy="30" r="5" fill="#cc9a4d" />
       </svg>
       <div class="hero-eyebrow">कुमाऊँ की पुरानी धुनों में खोए हुए।</div>
       <h1 class="hero-title">CLASSIC</h1>
       <p class="hero-subtitle">कुमाऊँनी गीत</p>
-      <p class="hero-desc">
-        A <em>living archive</em> of Kumaoni folk music — songs that carry
-        the scent of pine forests, the warmth of village hearths, and the
-        echo of mountain valleys.
-      </p>
       <div class="hero-tags">
-        <span class="tag">लोकगीत</span>
-        <span class="tag-dot"></span>
-        <span class="tag">जागर</span>
-        <span class="tag-dot"></span>
-        <span class="tag">ढोल दमाऊ</span>
-        <span class="tag-dot"></span>
+        <span class="tag">लोकगीत</span><span class="tag-dot"></span>
+        <span class="tag">जागर</span><span class="tag-dot"></span>
+        <span class="tag">ढोल दमाऊ</span><span class="tag-dot"></span>
         <span class="tag">Pahadi Folk</span>
-      </div>
-      <div class="scroll-indicator">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
       </div>
     </section>
 
     <div class="aipan-strip"></div>
-
-    <section class="section">
-      <div class="section-inner">
-        <div class="section-header">
-          <div>
-            <div class="section-num">Ek · The Memory</div>
-            <h2 class="section-title">Songs that feel<br />like home.</h2>
-          </div>
-          <p class="section-desc">
-            Kumaoni music carries a unique kind of memory — the echo of a wedding
-            procession, a cassette playing on a winter evening, or a voice drifting
-            through an open window in the hills.
-          </p>
-        </div>
-        <div class="memory-list">
-          <article class="memory-row">
-            <div class="memory-glyph">आ</div>
-            <div>
-              <h3>घर का आँगन</h3>
-              <span class="memory-time">First light</span>
-            </div>
-            <p>Chai brewing, and a familiar melody floating through the house.</p>
-          </article>
-          <article class="memory-row">
-            <div class="memory-glyph">श</div>
-            <div>
-              <h3>शादी-ब्याह</h3>
-              <span class="memory-time">Courtyard</span>
-            </div>
-            <p>Relatives arriving, drums in the lane, nights that stretch longer than planned.</p>
-          </article>
-          <article class="memory-row">
-            <div class="memory-glyph">प</div>
-            <div>
-              <h3>पहाड़ी रास्ते</h3>
-              <span class="memory-time">On the road</span>
-            </div>
-            <p>Cold air through the window, and a song that shortens the journey.</p>
-          </article>
-          <article class="memory-row">
-            <div class="memory-glyph">रा</div>
-            <div>
-              <h3>रात की धुन</h3>
-              <span class="memory-time">After dark</span>
-            </div>
-            <p>Quiet hours when the house settles and old memories find room to speak.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="quote-section">
-      <div class="quote-mark">"</div>
-      <div class="quote-text" id="quote">कुछ गीत सुने नहीं जाते — बस याद आ जाते हैं।</div>
-      <div class="quote-attr">The melody changes. The memory stays.</div>
-    </section>
-
-    <div class="aipan-strip dim"></div>
-
-    <section class="section">
-      <div class="section-inner">
-        <div class="section-header">
-          <div>
-            <div class="section-num">Do · Rotations</div>
-            <h2 class="section-title">One radio,<br />many rhythms.</h2>
-          </div>
-          <p class="section-desc">
-            A listening rhythm inspired by old broadcast routines — songs for working,
-            travelling, gathering, and remembering the hills.
-          </p>
-        </div>
-        <div class="rotation-grid">
-          <article class="rotation-card">
-            <div class="rotation-time">06:00 AM – 11:00 AM IST</div>
-            <h3>सुबह का पहाड़</h3>
-            <p>Open windows, birdsong, and melodies older than the morning light.</p>
-          </article>
-          <article class="rotation-card">
-            <div class="rotation-time">11:00 AM – 05:00 PM IST</div>
-            <h3>दिन की चाल</h3>
-            <p>The working-day soundtrack — lively, familiar, easy to hum along.</p>
-          </article>
-          <article class="rotation-card">
-            <div class="rotation-time">05:00 PM – 12:00 AM IST</div>
-            <h3>रात और यादें</h3>
-            <p>The softer side. For those away from home, and those thinking of it.</p>
-          </article>
-        </div>
-      </div>
-    </section>
 
     <footer>
       <div class="footer-brand">कुमाऊँनी गीत</div>
       <p class="footer-text">
         A tribute to the living memory of Kumaoni folk music — from the hills
         of Uttarakhand to wherever home finds you.<br /><br />
-        <strong>Audio streams via YouTube.</strong> This page hosts no music files. The player includes the supplied tracks.
+        <strong>Audio streams via YouTube.</strong> This page hosts no music files.
         All rights belong to the original artists, labels, and performers.
       </p>
     </footer>
   </div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="playlist-drawer" id="playlistDrawer" aria-label="Playlist">
+    <div class="drawer-header">
+      <div>
+        <h2>आज की सूची</h2>
+        <div class="sub">7 songs · tap to play</div>
+      </div>
+      <button class="drawer-close" id="drawerClose" aria-label="Close playlist">✕</button>
+    </div>
+    <div class="track-list" id="trackList"></div>
+  </aside>
 
   <div class="player">
     <div class="player-inner">
@@ -943,7 +308,7 @@
             <button class="ctrl-btn" id="nextBtn" aria-label="Next">▶▶</button>
           </div>
           <div class="track-info">
-            <div class="track-title" id="songTitle">Classic Kumoni Songs</div>
+            <div class="track-title" id="songTitle">Classic Kumaoni Songs</div>
             <div class="track-meta" id="songStatus">youtube archive · ready to play</div>
           </div>
           <div class="player-time" id="playerTime">00:00</div>
@@ -953,143 +318,91 @@
             <div class="progress-fill" id="progressBar"></div>
           </div>
         </div>
+        <div class="vol-wrap">
+          <span class="vol-label">Vol</span>
+          <input type="range" id="volume" min="0" max="100" value="80" aria-label="Volume" />
+        </div>
       </div>
     </div>
   </div>
   <iframe id="youtube" src="https://www.youtube.com/embed/Yq4GkZAxWQw?enablejsapi=1&playsinline=1&controls=0&rel=0&modestbranding=1" allow="autoplay; encrypted-media" title="Kumaoni music player"></iframe>
 
   <script>
-    (function() {
-      // --- Parallax effect on mouse move ---
+    (function () {
       const bgImage = document.getElementById('bgImage');
-      const bgContainer = document.getElementById('bgContainer');
-      
-      // Sensitivity: how much the image moves relative to mouse position (in pixels)
-      const moveFactor = 20; // max shift in pixels
-      
+      const moveFactor = 20;
       function handleMouseMove(e) {
         if (!bgImage) return;
-        
-        // Get viewport dimensions
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        
-        // Calculate mouse position as a ratio from -0.5 to 0.5
-        // (center of screen is 0,0)
-        const mouseX = (e.clientX / vw) - 0.5;
-        const mouseY = (e.clientY / vh) - 0.5;
-        
-        // Calculate translation values (opposite direction for parallax feel)
-        const translateX = mouseX * moveFactor * -1;
-        const translateY = mouseY * moveFactor * -1;
-        
-        // Apply transform with smooth transition handled by CSS
-        bgImage.style.transform = `translate(${translateX}px, ${translateY}px)`;
+        const vw = window.innerWidth, vh = window.innerHeight;
+        const mouseX = (e.clientX / vw) - 0.5, mouseY = (e.clientY / vh) - 0.5;
+        bgImage.style.transform = `translate(${mouseX * moveFactor * -1}px, ${mouseY * moveFactor * -1}px)`;
       }
-      
-      // Reset image position when mouse leaves the window (optional, smooth return)
-      function handleMouseLeave() {
-        if (bgImage) {
-          bgImage.style.transform = 'translate(0px, 0px)';
-        }
-      }
-      
-      // Attach event listeners
+      function handleMouseLeave() { if (bgImage) bgImage.style.transform = 'translate(0px,0px)'; }
       window.addEventListener('mousemove', handleMouseMove);
       document.body.addEventListener('mouseleave', handleMouseLeave);
-      
-      // Cleanup not strictly necessary but good practice if dynamic loading
-      window.addEventListener('beforeunload', () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        document.body.removeEventListener('mouseleave', handleMouseLeave);
-      });
     })();
 
-    // --- Clock, Quotes, Player logic below ---
     const clockEl = document.getElementById("clock");
     function updateClock() {
       const now = new Date();
       const indiaTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
       let hours = indiaTime.getHours();
-      const minutes = indiaTime.getMinutes();
-      const seconds = indiaTime.getSeconds();
+      const minutes = indiaTime.getMinutes(), seconds = indiaTime.getSeconds();
       const ampm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12;
-      hours = hours ? hours : 12;
-      clockEl.textContent = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")} ${ampm} IST`;
+      hours = hours % 12; hours = hours ? hours : 12;
+      clockEl.textContent = `${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")} ${ampm} IST`;
     }
     updateClock();
     setInterval(updateClock, 1000);
 
-    const quotes = [
-      "कुछ गीत सुने नहीं जाते — बस याद आ जाते हैं।",
-      "पहाड़ की आवाज़ में घर की खुशबू होती है।",
-      "एक धुन शुरू होती है, और पूरा बचपन साथ आ जाता है।",
-      "पुराने गीत कभी पुराने नहीं होते।",
-      "जहाँ भी बज जाए — पहचान में आ जाता है।",
-      "गाना खत्म हो जाता है। याद नहीं।",
-    ];
-    const quoteEl = document.getElementById("quote");
-    let quoteIndex = 0;
-    setInterval(() => {
-      quoteEl.classList.add("fade");
-      setTimeout(() => {
-        quoteIndex = (quoteIndex + 1) % quotes.length;
-        quoteEl.textContent = quotes[quoteIndex];
-        quoteEl.classList.remove("fade");
-      }, 500);
-    }, 5000);
+    /* Simulated "tuned in" counter — decorative only.
+       This page is a single static HTML file with no server or analytics,
+       so it has no way to know how many real people have it open.
+       This number gently drifts to give the "on air" feeling but is NOT
+       a real visitor count. Wire it to real analytics if you need actual numbers. */
+    const listenerEl = document.getElementById("listenerCount");
+    let listeners = 20 + Math.floor(Math.random() * 15);
+    function driftListeners() {
+      listeners += Math.floor(Math.random() * 5) - 2;
+      listeners = Math.max(6, Math.min(48, listeners));
+      listenerEl.textContent = listeners;
+    }
+    driftListeners();
+    setInterval(driftListeners, 4000);
 
-    const iframe = document.getElementById("youtube");
-    let playerReady = false;
-    let isPlaying = false;
-    let currentTime = 0;
-    let duration = 180;
-    let progressInterval = null;
+    let playerReady = false, isPlaying = false, currentTime = 0, duration = 180, progressInterval = null;
 
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
 
     let ytPlayer;
     function onYouTubeIframeAPIReady() {
-      ytPlayer = new YT.Player('youtube', {
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange,
-        }
-      });
+      ytPlayer = new YT.Player('youtube', { events: { onReady: onPlayerReady, onStateChange: onPlayerStateChange } });
     }
-
-    function onPlayerReady(event) {
+    function onPlayerReady() {
       playerReady = true;
       document.getElementById("songStatus").textContent = "youtube archive · ready to play";
-      ytPlayer.setVolume(80);
+      ytPlayer.setVolume(Number(volumeSlider.value));
       duration = ytPlayer.getDuration() || 180;
       updateSongLabel();
     }
-
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING) {
-        isPlaying = true;
-        updatePlayButton();
+        isPlaying = true; updatePlayButton();
         document.getElementById("songStatus").textContent = "youtube archive · playing";
         startProgressTracking();
       } else if (event.data === YT.PlayerState.PAUSED) {
-        isPlaying = false;
-        updatePlayButton();
+        isPlaying = false; updatePlayButton();
         document.getElementById("songStatus").textContent = "youtube archive · paused";
         stopProgressTracking();
       } else if (event.data === YT.PlayerState.ENDED) {
-        isPlaying = false;
-        updatePlayButton();
+        isPlaying = false; updatePlayButton();
         document.getElementById("songStatus").textContent = "youtube archive · ended";
         stopProgressTracking();
         setTimeout(() => nextTrack(), 1000);
       }
     }
-
     function startProgressTracking() {
       stopProgressTracking();
       progressInterval = setInterval(() => {
@@ -1105,31 +418,25 @@
         }
       }, 200);
     }
-
-    function stopProgressTracking() {
-      if (progressInterval) {
-        clearInterval(progressInterval);
-        progressInterval = null;
-      }
-    }
-
+    function stopProgressTracking() { if (progressInterval) { clearInterval(progressInterval); progressInterval = null; } }
     function formatTime(seconds) {
       seconds = Math.max(0, Math.floor(seconds));
-      const minutes = Math.floor(seconds / 60);
-      const secs = seconds % 60;
-      return String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+      const minutes = Math.floor(seconds / 60), secs = seconds % 60;
+      return String(minutes).padStart(2,"0") + ":" + String(secs).padStart(2,"0");
     }
 
     const playBtn = document.getElementById("playBtn");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-    const songTitle = document.getElementById("songTitle");
+    const songTitleEl = document.getElementById("songTitle");
     const progress = document.getElementById("progress");
     const progressBar = document.getElementById("progressBar");
     const playerTime = document.getElementById("playerTime");
+    const volumeSlider = document.getElementById("volume");
+    const trackListEl = document.getElementById("trackList");
 
     const songs = [
-      { id: "Yq4GkZAxWQw", title: "Heera Samdhani " },
+      { id: "Yq4GkZAxWQw", title: "Heera Samdhani" },
       { id: "43MGWGyzBlM", title: "बसंती छोरी" },
       { id: "W02yu-FdlGM", title: "LAALI HO LAALI HOSIYA" },
       { id: "uTzxjYwdYpY", title: "Gori Mukhdi Sajili" },
@@ -1139,17 +446,36 @@
     ];
     let virtualTrackIndex = 0;
 
-    function updatePlayButton() {
-      playBtn.textContent = isPlaying ? "⏸" : "▶";
+    function renderPlaylist() {
+      trackListEl.innerHTML = "";
+      songs.forEach((song, i) => {
+        const row = document.createElement("div");
+        row.className = "track-row" + (i === virtualTrackIndex ? " active" : "");
+        row.dataset.index = i;
+        row.innerHTML = `
+          <span class="track-num">${String(i + 1).padStart(2, "0")}</span>
+          <span class="track-main">
+            <div class="t-title">${song.title}</div>
+            <div class="t-meta">Kumaoni folk · lok geet</div>
+          </span>
+          <span class="track-eq"><span></span><span></span><span></span></span>
+        `;
+        row.addEventListener("click", () => { loadTrack(i, true); closeDrawer(); });
+        trackListEl.appendChild(row);
+      });
     }
+
+    function highlightActiveTrack() {
+      trackListEl.querySelectorAll(".track-row").forEach((row) => {
+        row.classList.toggle("active", Number(row.dataset.index) === virtualTrackIndex);
+      });
+    }
+
+    function updatePlayButton() { playBtn.textContent = isPlaying ? "⏸" : "▶"; }
 
     function togglePlay() {
       if (!playerReady || !ytPlayer) return;
-      if (isPlaying) {
-        ytPlayer.pauseVideo();
-      } else {
-        ytPlayer.playVideo();
-      }
+      if (isPlaying) ytPlayer.pauseVideo(); else ytPlayer.playVideo();
     }
 
     function loadTrack(index, autoplay = true) {
@@ -1158,26 +484,16 @@
       const track = songs[virtualTrackIndex];
       ytPlayer.loadVideoById(track.id);
       updateSongLabel();
+      highlightActiveTrack();
       progressBar.style.width = "0%";
       playerTime.textContent = "00:00";
       duration = 180;
-      if (!autoplay) {
-        ytPlayer.pauseVideo();
-      }
+      if (!autoplay) ytPlayer.pauseVideo();
     }
 
-    function previousTrack() {
-      loadTrack(virtualTrackIndex - 1);
-    }
-
-    function nextTrack() {
-      loadTrack(virtualTrackIndex + 1);
-    }
-
-    function updateSongLabel() {
-      const track = songs[virtualTrackIndex];
-      songTitle.textContent = track.title;
-    }
+    function previousTrack() { loadTrack(virtualTrackIndex - 1); }
+    function nextTrack() { loadTrack(virtualTrackIndex + 1); }
+    function updateSongLabel() { songTitleEl.textContent = songs[virtualTrackIndex].title; }
 
     playBtn.addEventListener("click", togglePlay);
     prevBtn.addEventListener("click", previousTrack);
@@ -1186,12 +502,38 @@
     progress.addEventListener("click", (event) => {
       if (!playerReady || !ytPlayer) return;
       const rect = progress.getBoundingClientRect();
-      const ratio = (event.clientX - rect.left) / rect.width;
-      const clamped = Math.max(0, Math.min(1, ratio));
-      const seekTime = clamped * duration;
-      ytPlayer.seekTo(seekTime, true);
-      progressBar.style.width = (clamped * 100) + "%";
+      const ratio = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+      ytPlayer.seekTo(ratio * duration, true);
+      progressBar.style.width = (ratio * 100) + "%";
     });
+
+    volumeSlider.addEventListener("input", () => {
+      if (playerReady && ytPlayer) ytPlayer.setVolume(Number(volumeSlider.value));
+    });
+
+    /* --- Playlist drawer toggle --- */
+    const playlistToggle = document.getElementById("playlistToggle");
+    const playlistDrawer = document.getElementById("playlistDrawer");
+    const drawerBackdrop = document.getElementById("drawerBackdrop");
+    const drawerClose = document.getElementById("drawerClose");
+
+    function openDrawer() {
+      playlistDrawer.classList.add("open");
+      drawerBackdrop.classList.add("open");
+      playlistToggle.setAttribute("aria-expanded", "true");
+    }
+    function closeDrawer() {
+      playlistDrawer.classList.remove("open");
+      drawerBackdrop.classList.remove("open");
+      playlistToggle.setAttribute("aria-expanded", "false");
+    }
+    function toggleDrawer() {
+      if (playlistDrawer.classList.contains("open")) closeDrawer(); else openDrawer();
+    }
+    playlistToggle.addEventListener("click", toggleDrawer);
+    drawerClose.addEventListener("click", closeDrawer);
+    drawerBackdrop.addEventListener("click", closeDrawer);
+    window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
 
     const rewindOverlay = document.getElementById("rewindOverlay");
     function rewindEffect() {
@@ -1205,18 +547,14 @@
     }
 
     window.addEventListener("keydown", (event) => {
-      if (event.key.toLowerCase() === "r" && !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)) {
-        rewindEffect();
-      }
+      if (event.key.toLowerCase() === "r" && !["INPUT","TEXTAREA"].includes(document.activeElement?.tagName)) rewindEffect();
       if (event.code === "Space") {
         const activeTag = document.activeElement?.tagName;
-        if (activeTag !== "INPUT" && activeTag !== "TEXTAREA") {
-          event.preventDefault();
-          togglePlay();
-        }
+        if (activeTag !== "INPUT" && activeTag !== "TEXTAREA") { event.preventDefault(); togglePlay(); }
       }
     });
 
+    renderPlaylist();
     updatePlayButton();
   </script>
 </body>
