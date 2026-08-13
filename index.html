@@ -23,9 +23,9 @@
         --brass: #cc9a4d;
         --biswar: #f3e7d2;
         --text: #f3e7d2;
-        --text-dim: rgba(243, 231, 210, 0.62);
-        --text-muted: rgba(243, 231, 210, 0.38);
-        --line: rgba(243, 231, 210, 0.1);
+        --text-dim: rgba(243, 231, 210, 0.8);
+        --text-muted: rgba(243, 231, 210, 0.6);
+        --line: rgba(243, 231, 210, 0.14);
         --max: 1100px;
       }
       * {
@@ -37,7 +37,7 @@
         scroll-behavior: smooth;
       }
       body {
-        background: #0a0f0c;
+       
         color: var(--text);
         font-family: "Work Sans", system-ui, sans-serif;
         overflow-x: hidden;
@@ -56,7 +56,7 @@
         z-index: 0;
         pointer-events: none;
         overflow: hidden;
-        background: #0a0f0c;
+       
       }
       .bg-image {
         position: absolute;
@@ -65,7 +65,7 @@
         top: -5%;
         left: -5%;
         object-fit: cover;
-        filter: brightness(0.32) saturate(1.1) contrast(1.09);
+        filter: brightness(0.62) saturate(2.0) contrast(.79);
         transition: transform 0.1s ease-out;
         will-change: transform;
       }
@@ -78,7 +78,7 @@
         background: linear-gradient(
           to top,
           rgba(0, 0, 0, 0.92) 0%,
-          rgba(0, 0, 0, 0) 100%
+          rgba(24, 22, 22, 0) 100%
         );
         pointer-events: none;
         z-index: 1;
@@ -102,10 +102,11 @@
         left: 0;
         right: 0;
         z-index: 30;
-        border-bottom: 1px solid var(--line);
-        background: rgba(10, 15, 12, 0.5);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        background: linear-gradient(
+          to bottom,
+          rgba(10, 15, 12, 0.65) 0%,
+          rgba(10, 15, 12, 0) 100%
+        );
       }
       .brand {
         display: flex;
@@ -119,13 +120,7 @@
         text-decoration: none;
         letter-spacing: -0.2px;
       }
-      .brand-mark {
-        width: 9px;
-        height: 9px;
-        background: var(--geru);
-        transform: rotate(45deg);
-        box-shadow: 0 0 12px rgba(184, 72, 47, 0.5);
-      }
+      
       .top-right {
         display: flex;
         align-items: center;
@@ -168,10 +163,11 @@
       }
       .indian-time {
         font-family: "Space Mono", monospace;
-        font-size: 11px;
-        color: var(--brass);
+        font-size: 13px;
+       
         letter-spacing: 0.05em;
-        font-weight: 500;
+        font-weight: 600;
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
       }
       .listeners {
         display: flex;
@@ -180,6 +176,7 @@
         font-family: "Space Mono", monospace;
         font-size: 10px;
         color: var(--text-dim);
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
       }
       .listeners-dot {
         width: 4px;
@@ -257,11 +254,14 @@
         }
       }
       .hero-eyebrow {
-        font-size: 10px;
+         font-weight: 900;
+        font-size: 12px;
         text-transform: uppercase;
-        letter-spacing: 0.26em;
-        color: var(--brass);
-        margin-bottom: 26px;
+        letter-spacing: 0.16em;
+       
+        color:var(--brass);
+        margin: 0px 0 8px 0;
+       
         font-weight: 500;
       }
       .hero-title {
@@ -272,16 +272,16 @@
         line-height: 0.84;
         letter-spacing: -0.03em;
         color: var(--biswar);
-        margin-bottom: 8px;
+        margin: 8px;
         text-shadow: 0 4px 40px rgba(0, 0, 0, 0.7);
       }
       .hero-subtitle {
         font-family: "Tiro Devanagari Hindi", serif;
-        font-size: clamp(24px, 3.6vw, 42px);
+        font-size: clamp(29px, 5vw, 70px);
         font-weight: 400;
         line-height: 1.2;
         color: var(--brass);
-        margin-bottom: 22px;
+        margin: 24px 0 22px 0;
         text-shadow: 0 2px 30px rgba(0, 0, 0, 0.7);
       }
       .hero-tags {
@@ -306,50 +306,6 @@
         border-radius: 50%;
       }
 
-      .aipan-strip {
-        height: 15px;
-        width: 100%;
-        background-image: url("data:image/svg+xml,%3Csvg width='42' height='15' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='7.5' r='2' fill='%23b8482f'/%3E%3Crect x='16' y='3.5' width='8' height='8' fill='%23cc9a4d' transform='rotate(45 20 7.5)'/%3E%3Ccircle cx='36' cy='7.5' r='2' fill='%23b8482f'/%3E%3C/svg%3E");
-        background-repeat: repeat-x;
-        background-position: center;
-        opacity: 0.4;margin-top: 130px;
-      }
-
-      footer {
-        position: relative;
-        z-index: 3;
-        background: rgba(10, 15, 12, 0.4);
-        backdrop-filter: blur(4px);
-        padding: 50px 50px 175px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 50px;
-        width: 100%;
-        box-sizing: border-box;
-        margin-top: 110px;
-      }
-      .footer-brand {
-        font-family: "Fraunces", serif;
-        font-size: 19px;
-        font-weight: 600;
-        font-style: italic;
-        color: var(--text);
-        white-space: nowrap;
-      }
-      .footer-text {
-        max-width: 460px;
-        color: var(--text-dim);
-        font-size: 10px;
-        line-height: 1.9;
-        font-weight: 300;
-        text-align: right;
-      }
-      .footer-text strong {
-        color: var(--brass);
-        font-weight: 500;
-      }
-
       /* --- PLAYLIST DRAWER --- */
       .drawer-backdrop {
         position: fixed;
@@ -371,6 +327,7 @@
         top: 0;
         right: 0;
         height: 100%;
+        height: 100dvh;
         width: min(420px, 88vw);
         background: #10160f;
         border-left: 1px solid var(--line);
@@ -390,6 +347,7 @@
         justify-content: space-between;
         padding: 24px 24px 18px;
         border-bottom: 1px solid var(--line);
+        flex-shrink: 0;
       }
       .drawer-header h2 {
         font-family: "Fraunces", serif;
@@ -427,8 +385,10 @@
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         flex: 1;
-        padding-bottom: 100px;
+        min-height: 0;
+        padding-bottom: 110px;
       }
       .track-row {
         display: grid;
@@ -458,22 +418,31 @@
       .track-row.active .track-num {
         color: var(--geru);
       }
+      .track-main {
+        min-width: 0;
+      }
       .track-main .t-title {
         font-family: "Tiro Devanagari Hindi", serif;
         font-size: 17px;
         color: var(--biswar);
         font-weight: 400;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .track-row.active .t-title {
         color: var(--brass);
       }
       .track-main .t-meta {
-        margin-top: 3px;
+        margin-top: 4px;
         font-family: "Space Mono", monospace;
-        font-size: 8px;
+        font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.08em;
         color: var(--text-muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .track-eq {
         width: 14px;
@@ -482,6 +451,7 @@
         align-items: flex-end;
         gap: 2px;
         opacity: 0;
+        flex-shrink: 0;
       }
       .track-row.active .track-eq {
         opacity: 1;
@@ -517,104 +487,141 @@
       .player {
         position: fixed;
         left: 50%;
-        bottom: 20px;
+        bottom: 22px;
         transform: translateX(-50%);
-        width: min(760px, calc(100% - 40px));
+        width: min(620px, calc(100% - 32px));
         z-index: 20;
       }
       .player-inner {
-        background: rgba(10, 15, 12, 0.94);
+        background: linear-gradient(180deg, rgba(24, 32, 27, 0.97), rgba(14, 19, 16, 0.97));
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--line);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
+        border: 1px solid rgba(204, 154, 77, 0.28);
+        border-top: 2px solid var(--brass);
+        border-radius: 16px;
+        box-shadow: 0 25px 55px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0,0,0,0.2);
         overflow: hidden;
       }
       .player-body {
-        padding: 13px 20px;
+        padding: 14px 18px 16px;
       }
       .player-row {
         display: grid;
         grid-template-columns: auto 1fr auto;
-        gap: 16px;
+        gap: 14px;
         align-items: center;
+      }
+      /* rotating brass disc — spins while a track plays, still while paused */
+      .player-disc {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background:
+          radial-gradient(circle at center, var(--bg) 0 6px, transparent 6.5px),
+          repeating-conic-gradient(from 0deg, var(--brass) 0deg 6deg, #7a5a2c 6deg 12deg);
+        border: 1px solid rgba(204, 154, 77, 0.5);
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
+        animation: discSpin 6s linear infinite;
+        animation-play-state: paused;
+      }
+      .player-disc.spinning {
+        animation-play-state: running;
+      }
+      @keyframes discSpin {
+        to {
+          transform: rotate(360deg);
+        }
       }
       .player-controls {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
       }
       .ctrl-btn {
-        width: 30px;
-        height: 30px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
         display: grid;
         place-items: center;
         color: var(--text-dim);
         transition: all 0.2s ease;
-        font-size: 10px;
-        background: transparent;
-        border: 1px solid transparent;
+        font-size: 11px;
+        background: rgba(243, 231, 210, 0.04);
+        border: 1px solid var(--line);
         cursor: pointer;
       }
       .ctrl-btn:hover {
-        border-color: var(--line);
+        border-color: var(--brass);
         color: var(--biswar);
-        background: rgba(243, 231, 210, 0.04);
+        background: rgba(204, 154, 77, 0.12);
       }
       .ctrl-btn.play-btn {
-        width: 34px;
-        height: 34px;
+        width: 44px;
+        height: 44px;
         background: var(--geru);
         color: var(--biswar);
-        border: none;
-        font-size: 11px;
+        border: 2px solid var(--brass);
+        font-size: 13px;
         font-weight: 600;
       }
       .ctrl-btn.play-btn:hover {
         background: #cc5637;
-        transform: scale(1.04);
-        box-shadow: 0 0 18px rgba(184, 72, 47, 0.35);
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(184, 72, 47, 0.45);
       }
       .track-info {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .track-text {
         min-width: 0;
       }
       .track-title {
         font-family: "Fraunces", serif;
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 500;
         font-style: italic;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: var(--text);
+        color: var(--biswar);
       }
       .track-meta {
-        margin-top: 3px;
-        font-size: 7px;
+        margin-top: 4px;
+        font-size: 9px;
         text-transform: uppercase;
-        letter-spacing: 0.11em;
-        color: var(--text-muted);
+        letter-spacing: 0.1em;
+        color: var(--brass);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
       .player-time {
-        font-size: 9px;
-        color: var(--text-muted);
+        font-size: 10px;
+        color: var(--text-dim);
         white-space: nowrap;
         font-family: "Space Mono", monospace;
+        flex-shrink: 0;
+      }
+      .player-time .divider,
+      .player-time .duration {
+        color: var(--text-muted);
       }
       .progress-row {
-        margin-top: 10px;
+        margin-top: 12px;
         display: flex;
         align-items: center;
         gap: 12px;
       }
       .progress-wrap {
         flex: 1;
-        height: 2px;
+        height: 4px;
         background: var(--line);
-        overflow: hidden;
+        border-radius: 3px;
+        overflow: visible;
         cursor: pointer;
         position: relative;
       }
@@ -622,48 +629,130 @@
         position: absolute;
         inset: 0 auto 0 0;
         width: 0%;
-        background: var(--brass);
+        background: linear-gradient(90deg, var(--geru), var(--brass));
+        border-radius: 3px;
         transition: width 0.3s linear;
-        box-shadow: 0 0 8px rgba(204, 154, 77, 0.4);
+        box-shadow: 0 0 10px rgba(204, 154, 77, 0.5);
+      }
+      .progress-fill::after {
+        content: "";
+        position: absolute;
+        right: -4px;
+        top: 50%;
+        width: 9px;
+        height: 9px;
+        transform: translateY(-50%) rotate(45deg);
+        background: var(--brass);
+        border-radius: 2px;
+        box-shadow: 0 0 6px rgba(204, 154, 77, 0.7);
+      }
+      .vol-btn-wrap {
+        flex-shrink: 0;
+      }
+      .vol-btn {
+        font-size: 13px;
+      }
+      .vol-btn.active {
+        border-color: var(--brass);
+        color: var(--brass);
+        background: rgba(204, 154, 77, 0.12);
       }
       .vol-wrap {
+        position: absolute;
+        right: 18px;
+        bottom: calc(100% + 10px);
         display: flex;
         align-items: center;
-        gap: 8px;
-        margin-top: 10px;
+        gap: 10px;
+        width: 170px;
+        max-width: calc(100vw - 36px);
+        padding: 10px 14px;
+        background: linear-gradient(180deg, rgba(24, 32, 27, 0.98), rgba(14, 19, 16, 0.98));
+        border: 1px solid rgba(204, 154, 77, 0.28);
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transform: translateY(6px);
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 25;
+        overflow: hidden;
+        box-sizing: border-box;
+      }
+      .vol-wrap.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
       }
       .vol-label {
-        font-size: 7px;
+        font-size: 9px;
         text-transform: uppercase;
         letter-spacing: 0.12em;
-        color: var(--text-muted);
+        color: var(--text-dim);
+        flex-shrink: 0;
       }
-      #volume {
-        flex: 1;
-        -webkit-appearance: none;
-        appearance: none;
-        height: 2px;
-        background: var(--line);
-        outline: none;
-        cursor: pointer;
-      }
-      #volume::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: var(--brass);
-        cursor: pointer;
-      }
-      #volume::-moz-range-thumb {
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: var(--brass);
-        cursor: pointer;
-        border: none;
-      }
+      /* Improved Volume Slider */
+#volume {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;                 /* thicker bar */
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--geru),
+    var(--brass)
+  );
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#volume:hover {
+  height: 8px;                 /* grows slightly on hover */
+}
+
+/* Chrome / Edge / Safari */
+#volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--biswar);
+  border: 3px solid var(--brass);
+  box-shadow: 0 0 10px rgba(204, 154, 77, 0.6);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#volume::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+/* Firefox */
+#volume::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    var(--geru),
+    var(--brass)
+  );
+}
+
+#volume::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--biswar);
+  border: 3px solid var(--brass);
+  box-shadow: 0 0 10px rgba(204, 154, 77, 0.6);
+  cursor: pointer;
+}
       #youtube {
         position: fixed;
         width: 1px;
@@ -696,10 +785,20 @@
         }
       }
 
+      /* --- Responsive breakpoints --- */
+      @media (max-width: 900px) {
+        .playlist-drawer {
+          width: min(380px, 82vw);
+        }
+        .player {
+          width: min(560px, calc(100% - 24px));
+        }
+      }
+
       @media (max-width: 640px) {
         .topbar {
-          padding: 0 20px;
-          height: 65px;
+          padding: 0 16px;
+          height: 60px;
         }
         .top-status span:nth-child(2) {
           display: none;
@@ -707,29 +806,142 @@
         .listeners {
           display: none;
         }
+        .playlist-toggle {
+          padding: 8px 12px;
+        }
         .hero-center {
-          padding: 100px 20px 80px;
+          padding: 90px 20px 70px;
         }
-        footer {
-          flex-direction: column;
-          gap: 25px;
-          padding: 35px 25px 150px;
-        }
-        .footer-text {
-          text-align: left;
-          max-width: 100%;
+        .hero-tags {
+          gap: 10px;
         }
         .player {
           width: calc(100% - 16px);
           bottom: 10px;
         }
+        .player-body {
+          padding: 12px 14px 14px;
+        }
+        .player-row {
+          gap: 10px;
+        }
+        .player-disc {
+          width: 36px;
+          height: 36px;
+        }
+        .track-title {
+          font-size: 13px;
+        }
+        .track-meta {
+          font-size: 8px;
+        }
+        .player-time {
+          font-size: 9px;
+        }
+        .ctrl-btn {
+          width: 32px;
+          height: 32px;
+          font-size: 10px;
+        }
+        .ctrl-btn.play-btn {
+          width: 40px;
+          height: 40px;
+        }
         .playlist-drawer {
           width: 100vw;
+        }
+        .drawer-header {
+          padding: 18px 18px 14px;
+        }
+        .drawer-header h2 {
+          font-size: 19px;
+        }
+        .track-row {
+          padding: 13px 18px;
+          gap: 10px;
+        }
+        .track-main .t-title {
+          font-size: 15px;
         }
         .playlist-toggle span.label {
           display: none;
         }
       }
+
+      @media (max-width: 380px) {
+        .topbar {
+          padding: 0 12px;
+        }
+        .indian-time {
+          font-size: 11px;
+        }
+        .hero-center {
+          padding: 80px 14px 60px;
+        }
+        .player {
+          width: calc(100% - 10px);
+          bottom: 6px;
+        }
+        .player-row {
+          grid-template-columns: auto 1fr auto;
+          gap: 8px;
+        }
+        .player-controls {
+          gap: 5px;
+        }
+        .prev-btn-label,
+        .track-meta {
+          display: none;
+        }
+        .vol-wrap {
+          width: 140px;
+        }
+        .track-row {
+          grid-template-columns: 24px 1fr auto;
+          padding: 12px 14px;
+        }
+      }
+
+      @media (max-height: 480px) and (orientation: landscape) {
+        .drawer-header {
+          padding: 14px 20px 10px;
+        }
+        .track-row {
+          padding: 10px 20px;
+        }
+        .player {
+          bottom: 6px;
+        }
+      }
+
+      @media (max-width: 340px) {
+        .player-disc {
+          display: none;
+        }
+        .player-body {
+          padding: 10px 12px 12px;
+        }
+        .player-time {
+          font-size: 8px;
+        }
+        .track-title {
+          font-size: 12px;
+        }
+        .ctrl-btn {
+          width: 30px;
+          height: 30px;
+        }
+        .ctrl-btn.play-btn {
+          width: 38px;
+          height: 38px;
+        }
+        .vol-wrap {
+          right: 10px;
+          width: 130px;
+          padding: 8px 12px;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -754,7 +966,7 @@
       <img
         class="bg-image"
         id="bgImage"
-        src="hill.png"
+        src="hill2.png"
         alt="Green terraced hills of the Uttarakhand Himalayas"
         loading="lazy"
       />
@@ -765,17 +977,15 @@
     <div class="main-content">
       <header class="topbar">
         <a href="#" class="brand">
-          <span class="brand-mark"></span>
-          कुमाऊँनी गीत
+           <span class="indian-time" id="clock">00:00 AM</span>
         </a>
         <div class="top-right">
           <div class="top-status">
-            <span>Uttarakhand</span>
             <span class="listeners"
               ><span class="listeners-dot"></span
-              ><span id="listenerCount">—</span> tuned in</span
+              ><span id="listenerCount">—</span> Turn in</span
             >
-            <span class="indian-time" id="clock">00:00 AM IST</span>
+           
           </div>
           <button
             class="playlist-toggle"
@@ -790,30 +1000,11 @@
       </header>
 
       <section class="hero-center">
-        <svg
-          class="hero-ornament"
-          viewBox="0 0 60 60"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g fill="none" stroke="#cc9a4d" stroke-width="1.2">
-            <circle cx="30" cy="30" r="27" opacity="0.5" />
-            <circle cx="30" cy="30" r="19" opacity="0.7" />
-          </g>
-          <g fill="#b8482f">
-            <circle cx="30" cy="7" r="2.4" />
-            <circle cx="30" cy="53" r="2.4" />
-            <circle cx="7" cy="30" r="2.4" />
-            <circle cx="53" cy="30" r="2.4" />
-            <circle cx="14" cy="14" r="1.6" opacity="0.75" />
-            <circle cx="46" cy="14" r="1.6" opacity="0.75" />
-            <circle cx="14" cy="46" r="1.6" opacity="0.75" />
-            <circle cx="46" cy="46" r="1.6" opacity="0.75" />
-          </g>
-          <circle cx="30" cy="30" r="5" fill="#cc9a4d" />
-        </svg>
+       
         <div class="hero-eyebrow">कुमाऊँ की पुरानी धुनों में खोए हुए।</div>
-        <h1 class="hero-title">CLASSIC</h1>
-        <p class="hero-subtitle">कुमाऊँनी गीत</p>
+        <h1 class="hero-title">देवभूमि
+</h1>
+        <p class="hero-subtitle">रेडियो</p>
         <div class="hero-tags">
           <span class="tag">लोकगीत</span><span class="tag-dot"></span>
           <span class="tag">जागर</span><span class="tag-dot"></span>
@@ -823,17 +1014,6 @@
       </section>
 
       <div class="aipan-strip"></div>
-
-      <footer>
-        <div class="footer-brand">कुमाऊँनी गीत</div>
-        <p class="footer-text">
-          A tribute to the living memory of Kumaoni folk music — from the hills
-          of Uttarakhand to wherever home finds you.<br /><br />
-          <strong>Audio streams via YouTube.</strong> This page hosts no music
-          files. All rights belong to the original artists, labels, and
-          performers.
-        </p>
-      </footer>
     </div>
 
     <div class="drawer-backdrop" id="drawerBackdrop"></div>
@@ -874,14 +1054,19 @@
               </button>
             </div>
             <div class="track-info">
-              <div class="track-title" id="songTitle">
-                Classic Kumaoni Songs
-              </div>
-              <div class="track-meta" id="songStatus">
-                youtube archive · ready to play
+              <div class="player-disc" id="playerDisc" aria-hidden="true"></div>
+              <div class="track-text">
+                <div class="track-title" id="songTitle">
+                  Classic Kumaoni Songs
+                </div>
+                <div class="track-meta" id="songStatus">
+                  youtube archive · ready to play
+                </div>
               </div>
             </div>
-            <div class="player-time" id="playerTime">00:00</div>
+            <div class="player-time" id="playerTime">
+              <span class="current">00:00</span><span class="divider"> / </span><span class="duration" id="durationTime">00:00</span>
+            </div>
           </div>
           <div class="progress-row">
             <div
@@ -895,19 +1080,30 @@
             >
               <div class="progress-fill" id="progressBar"></div>
             </div>
-          </div>
-          <div class="vol-wrap">
-            <span class="vol-label">Vol</span>
-            <input
-              type="range"
-              id="volume"
-              min="0"
-              max="100"
-              value="80"
-              aria-label="Volume"
-            />
+            <div class="vol-btn-wrap">
+              <button
+                class="ctrl-btn vol-btn"
+                id="volBtn"
+                aria-label="Volume"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                🔊
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+      <div class="vol-wrap" id="volWrap">
+        <span class="vol-label">Vol</span>
+        <input
+          type="range"
+          id="volume"
+          min="0"
+          max="100"
+          value="80"
+          aria-label="Volume"
+        />
       </div>
     </div>
     <iframe
@@ -948,16 +1144,17 @@
         const ampm = hours >= 12 ? "PM" : "AM";
         hours = hours % 12;
         hours = hours ? hours : 12;
-        clockEl.textContent = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")} ${ampm} IST`;
+        clockEl.textContent = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")} ${ampm} `;
       }
       updateClock();
       setInterval(updateClock, 1000);
 
-      /* Simulated "tuned in" counter — decorative only.
-       This page is a single static HTML file with no server or analytics,
-       so it has no way to know how many real people have it open.
-       This number gently drifts to give the "on air" feeling but is NOT
-       a real visitor count. Wire it to real analytics if you need actual numbers. */
+      /* Simulated "listening now" counter — decorative only.
+       This is a static HTML file with no server, so it has no real way to
+       know how many people currently have the page open — a true live count
+       needs a backend with presence tracking (e.g. Firebase/Supabase), which
+       wasn't set up here. This number gently drifts to give the "on air"
+       feeling, but it is NOT a real visitor count. */
       const listenerEl = document.getElementById("listenerCount");
       let listeners = 20 + Math.floor(Math.random() * 15);
       function driftListeners() {
@@ -998,6 +1195,7 @@
           "youtube archive · ready to play";
         ytPlayer.setVolume(Number(volumeSlider.value));
         duration = ytPlayer.getDuration() || 180;
+        updateDurationLabel();
         updateSongLabel();
       }
       function onPlayerStateChange(event) {
@@ -1006,6 +1204,8 @@
           updatePlayButton();
           document.getElementById("songStatus").textContent =
             "youtube archive · playing";
+          duration = ytPlayer.getDuration() || duration;
+          updateDurationLabel();
           startProgressTracking();
         } else if (event.data === YT.PlayerState.PAUSED) {
           isPlaying = false;
@@ -1027,7 +1227,7 @@
         progressInterval = setInterval(() => {
           if (ytPlayer && playerReady && isPlaying) {
             currentTime = ytPlayer.getCurrentTime() || 0;
-            duration = ytPlayer.getDuration() || 180;
+            duration = ytPlayer.getDuration() || duration;
             if (duration > 0) {
               const percent = (currentTime / duration) * 100;
               document.getElementById("progressBar").style.width =
@@ -1035,8 +1235,9 @@
               document
                 .getElementById("progress")
                 .setAttribute("aria-valuenow", percent.toFixed(1));
-              document.getElementById("playerTime").textContent =
+              document.querySelector("#playerTime .current").textContent =
                 formatTime(currentTime);
+              updateDurationLabel();
             }
           }
         }, 200);
@@ -1054,6 +1255,10 @@
         return (
           String(minutes).padStart(2, "0") + ":" + String(secs).padStart(2, "0")
         );
+      }
+      function updateDurationLabel() {
+        const durationEl = document.getElementById("durationTime");
+        if (durationEl) durationEl.textContent = formatTime(duration);
       }
 
       const playBtn = document.getElementById("playBtn");
@@ -1109,8 +1314,10 @@
         });
       }
 
+      const playerDisc = document.getElementById("playerDisc");
       function updatePlayButton() {
         playBtn.textContent = isPlaying ? "⏸" : "▶";
+        if (playerDisc) playerDisc.classList.toggle("spinning", isPlaying);
       }
 
       function togglePlay() {
@@ -1127,8 +1334,9 @@
         updateSongLabel();
         highlightActiveTrack();
         progressBar.style.width = "0%";
-        playerTime.textContent = "00:00";
+        document.querySelector("#playerTime .current").textContent = "00:00";
         duration = 180;
+        updateDurationLabel();
         if (!autoplay) ytPlayer.pauseVideo();
       }
 
@@ -1160,6 +1368,35 @@
       volumeSlider.addEventListener("input", () => {
         if (playerReady && ytPlayer)
           ytPlayer.setVolume(Number(volumeSlider.value));
+      });
+
+      /* --- Volume popover toggle --- */
+      const volBtn = document.getElementById("volBtn");
+      const volWrap = document.getElementById("volWrap");
+
+      function openVolume() {
+        volWrap.classList.add("open");
+        volBtn.classList.add("active");
+        volBtn.setAttribute("aria-expanded", "true");
+      }
+      function closeVolume() {
+        volWrap.classList.remove("open");
+        volBtn.classList.remove("active");
+        volBtn.setAttribute("aria-expanded", "false");
+      }
+      function toggleVolume() {
+        if (volWrap.classList.contains("open")) closeVolume();
+        else openVolume();
+      }
+      volBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleVolume();
+      });
+      document.addEventListener("click", (e) => {
+        if (!volWrap.contains(e.target) && e.target !== volBtn) closeVolume();
+      });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeVolume();
       });
 
       /* --- Playlist drawer toggle --- */
@@ -1197,7 +1434,7 @@
         rewindOverlay.classList.add("active");
         ytPlayer.seekTo(0, true);
         progressBar.style.width = "0%";
-        playerTime.textContent = "00:00";
+        document.querySelector("#playerTime .current").textContent = "00:00";
       }
 
       window.addEventListener("keydown", (event) => {
