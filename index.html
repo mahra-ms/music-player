@@ -1020,7 +1020,7 @@
       <div class="drawer-header">
         <div>
           <h2>आज की सूची</h2>
-          <div class="sub">7 songs · tap to play</div>
+          <div class="sub" id="drawerSub">30 songs · tap to play</div>
         </div>
         <button
           class="drawer-close"
@@ -1270,17 +1270,45 @@
       const playerTime = document.getElementById("playerTime");
       const volumeSlider = document.getElementById("volume");
       const trackListEl = document.getElementById("trackList");
+      const drawerSubEl = document.getElementById("drawerSub");
 
       const songs = [
         { id: "Yq4GkZAxWQw", title: "Heera Samdhani" },
         { id: "43MGWGyzBlM", title: "बसंती छोरी" },
-        { id: "W02yu-FdlGM", title: "LAALI HO LAALI HOSIYA" },
-        { id: "uTzxjYwdYpY", title: "Gori Mukhdi Sajili" },
+        { id: "W02yu-FdlGM", title: "लाली हो लाली होसिया" },
+        { id: "uTzxjYwdYpY", title: "गोरी मुखड़ी सजिली" },
         { id: "Ykah-TmdweU", title: "ओ बाना ललिता" },
-        { id: "xNGRsnAexA8", title: "LABRA CHORI" },
+        { id: "xNGRsnAexA8", title: "लबरा छोरी" },
         { id: "cjaw_GlWuso", title: "नैनीताले की माधुली" },
+        { id: "FVZc8rLpp6Q", title: "बेडु पाको बारो मासा" },
+        { id: "L8UFkhWpCs0", title: "बेडु पाको (Revoic & Suneet Rawat)" },
+        { id: "AJ9uTlRiomA", title: "बेडु पाको (Suneet Rawat)" },
+        { id: "E-1T4WhZFj0", title: "बेडु पाको" },
+        { id: "SAQe0L7RP30", title: "बेडु पाको बारामासा" },
+        { id: "bDK657bDfKc", title: "बेडु पाको (Priyanka Negi)" },
+        { id: "1VRIwhsBBZE", title: "बेडु पाको (Maithili Thakur)" },
+        { id: "ijN3PK7j6PQ", title: "थल की बाजार" },
+        { id: "h0omec2FVH8", title: "थल की बाजार (Dhol Remix)" },
+        { id: "I3JeD5QvYUs", title: "घुघूती घुरों लागी मेरे मैत की" },
+        { id: "dglSrBQGI38", title: "घुघूती घूर घूरा" },
+        { id: "xhDr2p22dDA", title: "घूर घुघूती" },
+        { id: "QuOVsqzdhj0", title: "घुघूती जैसी साँखी" },
+        { id: "ByeWLHyuMMI", title: "घुघूती बासुती" },
+        { id: "O_tWjS7xj7o", title: "हे रमिये" },
+        { id: "VL5l3myKoTI", title: "दादु मेरी उलर्या जिकुड़ी" },
+        { id: "ViZKcQR4C1k", title: "को रै होला चुन्याल" },
+        { id: "vuPPC-MRLjM", title: "कां भलो कुमौं गढ़वाल" },
+        { id: "S-Q8YOdkaIA", title: "क्वी त् बात होलि" },
+        { id: "C0_aei93S6s", title: "थान्दो रे थान्दो" },
+        { id: "G1UWr7cSAQI", title: "आईगे बसंत" },
+        { id: "Le4U-MxRnkc", title: "मंगतू ठेकेदार" },
+        { id: "gqL_QDCLctY", title: "मेरी बसंती" },
       ];
       let virtualTrackIndex = 0;
+
+      if (drawerSubEl) {
+        drawerSubEl.textContent = songs.length + " songs · tap to play";
+      }
 
       // Shuffle queue: every song is played once before the queue reshuffles.
       let shuffleQueue = [];
